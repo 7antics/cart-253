@@ -1,6 +1,6 @@
-# TITLE OF PROJECT
+Title
 
-AUTHOR NAME
+Authors Name
 
 [View this project online](URL_FOR_THE_RUNNING_PROJECT)
 
