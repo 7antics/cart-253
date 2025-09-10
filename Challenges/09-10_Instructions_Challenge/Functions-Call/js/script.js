@@ -1,6 +1,5 @@
 /**
  * Instructions Challenge
- * 
  * Anna Tsirbas
  * 
  *Creating an immersive nighttime landscape. 
@@ -22,6 +21,8 @@ function setup() {
 */
 function draw() {
     background(100, 100, 255);
+
+    //Grass
     push();
     fill(1, 50, 32);
     rect(0, 400, 640, 80);
@@ -57,6 +58,15 @@ function draw() {
     //Star 10
     triangle(450, 180, 440, 195, 460, 195);
     triangle(450, 200, 440, 185, 460, 185);
+
     //Bird
+    push();
+    stroke(0);
+    strokeWeight(5);
+    point(100, 360);
+    point(105, 355);
+    point(110, 360);
+    pop();
+
 
 }
