@@ -20,7 +20,7 @@ function setup() {
 */
 function draw() {
     // The void
-    background("#000000");
+    background("#5300f9ff");
 
     // The eye
     drawEye();

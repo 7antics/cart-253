@@ -20,7 +20,7 @@ function setup() {
  * A landscape.
 */
 function draw() {
-    background(100, 100, 255);
+    background("#00008B");
 
     //Grass
     push();
@@ -58,15 +58,64 @@ function draw() {
     //Star 10
     triangle(450, 180, 440, 195, 460, 195);
     triangle(450, 200, 440, 185, 460, 185);
+    pop();
 
-    //Bird
+    //Moon
+    ellipse(550, 65, 30);
     push();
-    stroke(0);
-    strokeWeight(5);
-    point(100, 360);
-    point(105, 355);
-    point(110, 360);
+    fill("#00008B");
+    ellipse(555, 65, 30);
+    pop();
+
+    //Bird 1
+    push();
+    noFill();
+    stroke(255);
+    arc(140, 240, 15, 15, PI, 0, OPEN); 
+    arc(156, 240, 15, 15, PI, 0, OPEN); 
+    //Bird 2
+    arc(160, 265, 15, 15, PI, 0, OPEN); 
+    arc(176, 265, 15, 15, PI, 0, OPEN); 
+    //Bird 3
+    arc(110, 255, 15, 15, PI, 0, OPEN);
+    arc(126, 255, 15, 15, PI, 0, OPEN); 
     pop();
 
 
+    //Castle
+    push();
+    fill(0, 0, 0);
+    //Building
+    rect(400, 320, 100);
+    //Top Tower
+    rect(425, 250, 50, 100);
+    //Side Tower 1
+    rect(350, 270, 50, 150);
+    //Side Tower 2
+    rect(500, 270, 50, 150);
+     //Roof
+    triangle(450, 220, 400, 260, 500, 260);
+
+
+    //Window
+    fill(255);
+    ellipse(450, 300, 15);
+    //Door
+    push();
+    fill("#964B00")
+    rect(444, 390, 15, 30);
+    pop();
+    
+   
+
+    //Playing with Grids
+    //push();
+    //stroke(255);
+
+    //line(width / 2, 0, width / 2, height);
+    //line(width / 4, 0, width / 4, height);
+    
+    //line(0, height / 2, width, height / 2);
+    //line(0, height/4, width, height/4);
+    //pop();
 }
