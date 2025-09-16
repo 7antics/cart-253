@@ -17,8 +17,8 @@ let mrFurious = {
   fill: {
     r: 255,
     g: 225,
-    b: 225
-  }
+    b: 225,
+  },
 };
 
 /**
@@ -33,12 +33,12 @@ function setup() {
  */
 function draw() {
   background(160, 180, 200);
-  
+
   // Draw Mr. Furious as a coloured circle
   push();
   noStroke();
   fill(mrFurious.fill.r, mrFurious.fill.g, mrFurious.fill.b);
   ellipse(mrFurious.x, mrFurious.y, mrFurious.size);
-  pop();
-}
+    pop();
 
+}
