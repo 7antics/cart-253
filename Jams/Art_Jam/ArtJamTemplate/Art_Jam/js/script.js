@@ -33,12 +33,15 @@ background(192, 234, 240);
 */
 function draw() {
 
- 
-
-    // Card Back
+    // Card Back 1
     push();
     noStroke();
-    rect(90, 50, 150, 300);
+    rect(cardBack.cardX, cardBack.cardY, cardBack.cardW, cardBack.cardH);
     pop();
 
+     // Card Back 2
+    push();
+    noStroke();
+    rect(cardBack.cardX, cardBack.cardY, cardBack.cardW, cardBack.cardH);
+    pop();
 }
