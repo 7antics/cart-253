@@ -129,12 +129,21 @@ movingToRight = true;
   pop();
   push();
   stroke(5);
+
   // Mr.Furious' Glare
-  push();
-  arc(mrFurious.x - 5, mrFurious.y - 5, 15, 15, 0, PI, OPEN);
-  arc(mrFurious.x - 10, mrFurious.y - 10, 15, 15, 0, PI, OPEN);
+  arc(mrFurious.x - 20, mrFurious.y - 20, 15, 15, 0, PI, OPEN);
+  arc(mrFurious.x - 1, mrFurious.y - 20, 15, 15, 0, PI, OPEN);
   // Mr.Furious' Frown
-  arc(mrFurious.x - 10, mrFurious.y - 10, 15, 15, PI, 0, OPEN);
+  arc(mrFurious.x - 10, mrFurious.y + 5, 15, 15, PI, 0, OPEN);
+  pop();
+  // Mr.Furious' Body
+  push();
+  noStroke();
+  fill(mrFurious.fill.r, mrFurious.fill.g, mrFurious.fill.b,);
+  rect(mrFurious.x - 18, mrFurious.y + 40, 35, 80);
+  // Mr.Furious' Legs
+  rect(mrFurious.x - 18, mrFurious.y + 120, 10, 20);
+  rect(mrFurious.x + 7, mrFurious.y + 120, 10, 20);
   pop();
 
   //Sky goes from Day to Night
