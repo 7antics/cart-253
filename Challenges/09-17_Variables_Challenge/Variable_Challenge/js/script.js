@@ -11,7 +11,8 @@ let bird = {
 pos: {
 x: 100,
 y: 100,
-},
+  },
+//Colour
 fill: {
 r: 70,
 g: 70,
@@ -38,7 +39,8 @@ beakFill: {
 r: 252,
 g: 115,
 b: 3,
-},
+  },
+//Speed
 velocity: 1
 }
 

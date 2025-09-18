@@ -11,8 +11,20 @@
 /**
  * OH LOOK I DIDN'T DESCRIBE SETUP!!
 */
+
+let cardBack = {
+    //Position and Size
+    cardX: 50,
+    cardY: 50,
+    cardW: 150,
+    cardH: 300,
+}
+
 function setup() {
 
+//Create Canvas
+createCanvas(600, 500,);
+background(192, 234, 240);
 }
 
 
@@ -20,5 +32,13 @@ function setup() {
  * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
 */
 function draw() {
+
+ 
+
+    // Card Back
+    push();
+    noStroke();
+    rect(90, 50, 150, 300);
+    pop();
 
 }
