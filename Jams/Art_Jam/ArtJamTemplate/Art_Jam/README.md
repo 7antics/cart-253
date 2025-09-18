@@ -1,5 +1,4 @@
-# TITLE OF PROJECT
-
+A Perfect Day!
 Anna Tsirbas
 
 [View this project online](URL_FOR_THE_RUNNING_PROJECT)
