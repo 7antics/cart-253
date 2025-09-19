@@ -219,14 +219,10 @@ function draw() {
     pop();
 }
 
-    //if mouse clicks cardback, cardback disappears and card face appears
-function mouseClicked() {
-    if (cardBack == true) {
-        cardFace == true;
-    }
-    else {
-        cardBack == true;
-    }
+//if mouse clicks cardback, cardback disappears
+    
+//if carback disappears, card face appears
+
+//if card face appears, heart fills color
 
 
-}
