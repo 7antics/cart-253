@@ -23,22 +23,13 @@ let cardBack = {
   cardH: 300,
   //Card Back Colour
   fill: {
-    cardbackR: 65,
-    cardbackG: 0,
-    cardbackB: 243,
+    cardBackFill: "#4100F3",
+    cardFaceFill: "#FFFFFF",
+
   },
 };
 
-let cardFace = {
-  //Card Face Colour
-  fill: {
-    cardfaceR: 255,
-    cardfaceG: 255,
-    cardfaceB: 255,
-  },
-};
-
-// Placeholder of card pick reult
+// Placeholder of card pick result
 let heart = {
     // Ellipse Size
     ellipseSize: {
@@ -86,69 +77,23 @@ function draw() {
   // Left Card Back
   push();
   noStroke();
-  fill(
-    cardBack.fill.cardbackR,
-    cardBack.fill.cardbackG,
-    cardBack.fill.cardbackB
-  );
-  rect(cardBack.cardX, cardBack.cardY, cardBack.cardW, cardBack.cardH);
-  pop();
-
-  // Left Card Face
-  push();
-  noStroke();
-  fill(
-    cardFace.fill.cardfaceR,
-    cardFace.fill.cardfaceG,
-    cardFace.fill.cardfaceB
-  );
+  fill(cardBack.fill.cardBackFill);
   rect(cardBack.cardX, cardBack.cardY, cardBack.cardW, cardBack.cardH);
   pop();
 
   // Middle Card Back
   push();
   noStroke();
-  fill(
-    cardBack.fill.cardbackR,
-    cardBack.fill.cardbackG,
-    cardBack.fill.cardbackB
-  );
-  rect(cardBack.cardX + 200, cardBack.cardY, cardBack.cardW, cardBack.cardH);
-  pop();
-
-  // Middle Card Face
-  push();
-  noStroke();
-  fill(
-    cardFace.fill.cardfaceR,
-    cardFace.fill.cardfaceG,
-    cardFace.fill.cardfaceB
-  );
+  fill(cardBack.fill.cardBackFill);
   rect(cardBack.cardX + 200, cardBack.cardY, cardBack.cardW, cardBack.cardH);
   pop();
 
   // Right Card Back
   push();
   noStroke();
-  fill(
-    cardBack.fill.cardbackR,
-    cardBack.fill.cardbackG,
-    cardBack.fill.cardbackB
-  );
+  fill(cardBack.fill.cardBackFill);
   rect(cardBack.cardX + 400, cardBack.cardY, cardBack.cardW, cardBack.cardH);
   pop();
-
-  // Right Card Face
-  push();
-  noStroke();
-  fill(
-    cardFace.fill.cardfaceR,
-    cardFace.fill.cardfaceG,
-    cardFace.fill.cardfaceB
-  );
-  rect(cardBack.cardX + 400, cardBack.cardY, cardBack.cardW, cardBack.cardH);
-  pop();
-
     
     // Draw Hearts
     // Left Heart
@@ -216,13 +161,29 @@ function draw() {
         heart.triPos.yTwo,
         heart.triPos.xThree + 50,
         heart.triPos.yThree);
-    pop();
+  pop();
+
 }
 
-//if mouse clicks cardback, cardback disappears
-    
-//if carback disappears, card face appears
+//if mouse clicks cardback, cardback changes colour to cardface
 
-//if card face appears, heart fills color
+function displayCardFace() {
 
+  if (mouseIsPressed) {
+    cardBack.fill === cardBack.fill.cardFaceFill;
+  }
+}
 
+//when cardback changes to cardface, introduce cardresult
+
+//when cardresult appears, change colour of heart
+
+//once heart colour changes, reset cardbacks
+
+//once all three hearts are full, display end scene
+
+//if all three red hearts display end scene one
+
+//if two red hearts display end scene two
+
+//if one red heart display end scene three

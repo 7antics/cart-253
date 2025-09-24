@@ -83,9 +83,7 @@ function draw() {
     skyBackground.skyBlue
   );
 
-  
 drawBird();
-
 if(movingToRight)
 {
 birdMoveR();
@@ -94,11 +92,10 @@ if(bird.pos.x >= 300)
 movingToRight = false;
 }
 }
-
+  
 else if(!movingToRight)
 {
 birdMoveL();
-
 if(bird.pos.x <= 100)
 {
 movingToRight = true;
