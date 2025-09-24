@@ -74,6 +74,14 @@ function setup() {
  */
 function draw() {
 
+  displayCardFace();
+  drawCardBack();
+  drawHearts();
+
+}
+
+function drawCardBack() {
+
   // Left Card Back
   push();
   noStroke();
@@ -94,6 +102,10 @@ function draw() {
   fill(cardBack.fill.cardBackFill);
   rect(cardBack.cardX + 400, cardBack.cardY, cardBack.cardW, cardBack.cardH);
   pop();
+
+}
+
+function drawHearts() {
     
     // Draw Hearts
     // Left Heart
@@ -165,25 +177,25 @@ function draw() {
 
 }
 
-//if mouse clicks cardback, cardback changes colour to cardface
-
 function displayCardFace() {
 
+//If mouse clicks card back, card back changes colour to card face
   if (mouseIsPressed) {
-    cardBack.fill === cardBack.fill.cardFaceFill;
+    cardBack.fill.cardBackFill = cardBack.fill.cardFaceFill;
   }
 }
 
-//when cardback changes to cardface, introduce cardresult
 
-//when cardresult appears, change colour of heart
+//When cardback changes to card face, introduce card result
 
-//once heart colour changes, reset cardbacks
+//when card result appears, change colour of heart
 
-//once all three hearts are full, display end scene
+//Once heart colour changes, reset card backs
 
-//if all three red hearts display end scene one
+//Once all three hearts are full, display end scene
 
-//if two red hearts display end scene two
+//If all three red hearts display "End Scene One"
 
-//if one red heart display end scene three
+//If two red hearts display "End Scene Two"
+
+//If one red heart display "End Scene Three"
