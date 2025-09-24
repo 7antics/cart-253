@@ -179,14 +179,18 @@ function drawHearts() {
 
 function displayCardFace() {
 
+  const distance = dist(mouseX, mouseY, cardBack.x, cardBack.y);
+  const mouseOverlapsCard = (distance < cardBack.size / 2);
+
 //If mouse clicks card back, card back changes colour to card face
-  if (mouseIsPressed) {
+  if (mouseIsPressed && mouseOverlapsCard) {
     cardBack.fill.cardBackFill = cardBack.fill.cardFaceFill;
   }
+
+  //When cardback changes to card face, introduce card result
+
 }
 
-
-//When cardback changes to card face, introduce card result
 
 //when card result appears, change colour of heart
 
