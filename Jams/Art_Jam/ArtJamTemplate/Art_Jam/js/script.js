@@ -183,7 +183,7 @@ function displayCardFace() {
   const mouseOverlapsCard = (distance < cardBack.size / 2);
 
 //If mouse clicks card back, card back changes colour to card face
-  if (mouseIsPressed && mouseOverlapsCard) {
+  if (mouseIsPressed) {
     cardBack.fill.cardBackFill = cardBack.fill.cardFaceFill;
   }
 
@@ -198,8 +198,8 @@ function displayCardFace() {
 
 //Once all three hearts are full, display end scene
 
-//If all three red hearts display "End Scene One"
+//If all three red hearts display "End Scene One/WAHOO!"
 
-//If two red hearts display "End Scene Two"
+//If two red hearts display "End Scene Two/MEH."
 
-//If one red heart display "End Scene Three"
+//If one red heart display "End Scene Three/WOMPWOMP!"
