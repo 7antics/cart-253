@@ -52,6 +52,53 @@ let cardBackRight = {
     cardFaceFill: "#FFFFFF",
   },
 };
+//Card result 1
+let leftCardOpOne = {
+  x: 125,
+  y: 195,
+  size: 50,
+  fill: (255, 0, 0),
+};
+
+//Card result 2
+let leftCardOpTwo = {
+  x: 125,
+  y: 195,
+  size: 50,
+  fill: (150, 0, 0),
+};
+
+//Card result 3
+let leftCardOpThree = {
+  x: 125,
+  y: 195,
+  size: 50,
+  fill: (125, 0, 0),
+};
+
+//Card result 4
+let leftCardOpFour = {
+  x: 125,
+  y: 195,
+  size: 50,
+  fill: (100, 0, 0),
+};
+
+//Card result 5
+let leftCardOpFive = {
+  x: 125,
+  y: 195,
+  size: 50,
+  fill: (75, 0, 0),
+};
+
+//Card result 6
+let leftCardOpSix = {
+  x: 125,
+  y: 195,
+  size: 50,
+  fill: (50, 0, 0),
+};
 
 // Heart Properties
 let heartLeft = {
@@ -84,8 +131,8 @@ let heartLeft = {
   fills: {
     base: "#FFFFFF",
     good: "#FF0000",
-    bad: "#808080"
-  }
+    bad: "#808080",
+  },
 };
 
 let heartMiddle = {
@@ -118,8 +165,8 @@ let heartMiddle = {
   fills: {
     base: "#FFFFFF",
     good: "#FF0000",
-    bad: "#808080"
-  }
+    bad: "#808080",
+  },
 };
 
 let heartRight = {
@@ -152,8 +199,8 @@ let heartRight = {
   fills: {
     base: "#FFFFFF",
     good: "#FF0000",
-    bad: "#808080"
-  }
+    bad: "#808080",
+  },
 };
 
 function setup() {
@@ -163,10 +210,10 @@ function setup() {
 }
 
 function draw() {
- 
   writeText();
   drawCardBack();
   drawHearts();
+  drawResults();
   display();
 }
 
@@ -177,7 +224,7 @@ function writeText() {
   //Size of text
   textSize(20);
   //Alignment of text
- textAlign(CENTER, CENTER);
+  textAlign(CENTER, CENTER);
   //Style of text
   textStyle(BOLDITALIC);
   //What the text says
@@ -303,30 +350,78 @@ function drawHearts() {
   pop();
 }
 
-function display() {
+function drawResults() {
+  push();
+  fill (leftCardOpOne.fill);
+  ellipse(leftCardOpOne.x, leftCardOpOne.y, leftCardOpOne.size);
+  pop();
 
-//Left card constraints for when mouse is in card coordinates
-  let overlapsCardLeft = false
-  
-  if (mouseX > cardBackLeft.cardX && mouseX < cardBackLeft.cardX + cardBackLeft.cardW) {
-    if (mouseY > cardBackLeft.cardY && mouseY < cardBackLeft.cardY + cardBackLeft.cardH)
-    {overlapsCardLeft = true}
+  push();
+  fill(leftCardOpTwo.fill);
+  ellipse(leftCardOpTwo.x, leftCardOpTwo.y, leftCardOpTwo.size);
+  pop();
+
+  push();
+  fill(leftCardOpThree.fill);
+  ellipse(leftCardOpThree.x, leftCardOpThree.y, leftCardOpThree.size);
+  pop();
+
+  push();
+  fill(leftCardOpFour.fill);
+  ellipse(leftCardOpFour.x, leftCardOpFour.y, leftCardOpFour.size);
+  pop();
+
+  push();
+  fill(leftCardOpFive.fill);
+  ellipse(leftCardOpFive.x, leftCardOpFive.y, leftCardOpSix.size);
+  pop();
+
+}
+
+function display() {
+  //Left card constraints for when mouse is in card coordinates
+  let overlapsCardLeft = false;
+
+  if (
+    mouseX > cardBackLeft.cardX &&
+    mouseX < cardBackLeft.cardX + cardBackLeft.cardW
+  ) {
+    if (
+      mouseY > cardBackLeft.cardY &&
+      mouseY < cardBackLeft.cardY + cardBackLeft.cardH
+    ) {
+      overlapsCardLeft = true;
+    }
   }
 
-//Middle Card constraints for when mouse is in card coordinates
-  let overlapsCardMiddle = false
+  //Middle Card constraints for when mouse is in card coordinates
+  let overlapsCardMiddle = false;
 
-  if (mouseX > cardBackMiddle.cardX && mouseX < cardBackMiddle.cardX + cardBackMiddle.cardW) {
-    if (mouseY > cardBackMiddle.cardY && mouseY < cardBackMiddle.cardY + cardBackMiddle.cardH)
-    { overlapsCardMiddle = true }
+  if (
+    mouseX > cardBackMiddle.cardX &&
+    mouseX < cardBackMiddle.cardX + cardBackMiddle.cardW
+  ) {
+    if (
+      mouseY > cardBackMiddle.cardY &&
+      mouseY < cardBackMiddle.cardY + cardBackMiddle.cardH
+    ) {
+      overlapsCardMiddle = true;
+    }
   }
 
   //Right Card constraints for when mouse is in card coordinates
-  let overlapsCardRight = false
+  let overlapsCardRight = false;
 
-  if (mouseX > cardBackRight.cardX && mouseX < cardBackRight.cardX + cardBackRight.cardW) {
-    if (mouseY > cardBackRight.cardY && mouseY < cardBackRight.cardY + cardBackRight.cardH) 
-    { overlapsCardRight = true}
+  if (
+    mouseX > cardBackRight.cardX &&
+    mouseX < cardBackRight.cardX + cardBackRight.cardW
+  ) {
+    if (
+      mouseY > cardBackRight.cardY &&
+      mouseY < cardBackRight.cardY + cardBackRight.cardH
+    ) {
+      overlapsCardRight = true;
+    }
   }
 
   //If mouse clicks Left card back, card back changes colour to card face colour
