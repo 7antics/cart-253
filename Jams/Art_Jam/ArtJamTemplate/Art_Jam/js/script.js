@@ -352,7 +352,7 @@ function drawHearts() {
 
 function drawResults() {
   push();
-  fill (leftCardOpOne.fill);
+  fill(leftCardOpOne.fill);
   ellipse(leftCardOpOne.x, leftCardOpOne.y, leftCardOpOne.size);
   pop();
 
@@ -375,7 +375,6 @@ function drawResults() {
   fill(leftCardOpFive.fill);
   ellipse(leftCardOpFive.x, leftCardOpFive.y, leftCardOpSix.size);
   pop();
-
 }
 
 function display() {
