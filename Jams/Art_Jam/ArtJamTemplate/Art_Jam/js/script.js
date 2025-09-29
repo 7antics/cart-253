@@ -20,6 +20,7 @@ let cardBackLeft = {
   cardY: 50,
   cardW: 150,
   cardH: 300,
+  isFlip: false,
   //Card Back Colour
   fill: {
     cardBackFill: "#4100F3",
@@ -33,6 +34,7 @@ let cardBackMiddle = {
   cardY: 50,
   cardW: 150,
   cardH: 300,
+  isFlip: false,
   //Card Back Colour
   fill: {
     cardBackFill: "#4100F3",
@@ -46,6 +48,7 @@ let cardBackRight = {
   cardY: 50,
   cardW: 150,
   cardH: 300,
+  isFlip: false,
   //Card Back Colour
   fill: {
     cardBackFill: "#4100F3",
@@ -53,51 +56,51 @@ let cardBackRight = {
   },
 };
 //Card result 1
-let leftCardOpOne = {
+let leftCardA = {
   x: 125,
   y: 195,
   size: 50,
-  fill: (255, 0, 0),
+  fill: ("#DE3163"),
 };
 
 //Card result 2
-let leftCardOpTwo = {
+let leftCardB = {
   x: 125,
   y: 195,
   size: 50,
-  fill: (150, 0, 0),
+  fill: ("#800080"),
 };
 
 //Card result 3
-let leftCardOpThree = {
+let leftCardC = {
   x: 125,
   y: 195,
   size: 50,
-  fill: (125, 0, 0),
+  fill: ("#CBFFC0"),
 };
 
 //Card result 4
-let leftCardOpFour = {
+let leftCardD = {
   x: 125,
   y: 195,
   size: 50,
-  fill: (100, 0, 0),
+  fill: ("#2E44D1"),
 };
 
 //Card result 5
-let leftCardOpFive = {
+let leftCardE = {
   x: 125,
   y: 195,
   size: 50,
-  fill: (75, 0, 0),
+  fill: ("#FFF5C0"),
 };
 
 //Card result 6
-let leftCardOpSix = {
+let leftCardF = {
   x: 125,
   y: 195,
   size: 50,
-  fill: (50, 0, 0),
+  fill: ("#C0FFF4"),
 };
 
 // Heart Properties
@@ -352,35 +355,70 @@ function drawHearts() {
 
 function drawResults() {
   push();
-  fill(leftCardOpOne.fill);
-  ellipse(leftCardOpOne.x, leftCardOpOne.y, leftCardOpOne.size);
+  fill(leftCardA.fill);
+  ellipse(leftCardA.x, leftCardA.y, leftCardA.size);
   pop();
 
   push();
-  fill(leftCardOpTwo.fill);
-  ellipse(leftCardOpTwo.x, leftCardOpTwo.y, leftCardOpTwo.size);
+  fill(leftCardB.fill);
+  ellipse(leftCardB.x, leftCardB.y, leftCardB.size);
   pop();
 
   push();
-  fill(leftCardOpThree.fill);
-  ellipse(leftCardOpThree.x, leftCardOpThree.y, leftCardOpThree.size);
+  fill(leftCardC.fill);
+  ellipse(leftCardC.x, leftCardC.y, leftCardC.size);
   pop();
 
   push();
-  fill(leftCardOpFour.fill);
-  ellipse(leftCardOpFour.x, leftCardOpFour.y, leftCardOpFour.size);
+  fill(leftCardD.fill);
+  ellipse(leftCardD.x, leftCardD.y, leftCardD.size);
   pop();
 
   push();
-  fill(leftCardOpFive.fill);
-  ellipse(leftCardOpFive.x, leftCardOpFive.y, leftCardOpSix.size);
+  fill(leftCardE.fill);
+  ellipse(leftCardE.x, leftCardE.y, leftCardE.size);
+  pop();
+
+  push();
+  fill(leftCardF.fill);
+  ellipse(leftCardF.x, leftCardF.y, leftCardF.size);
   pop();
 }
 
 function display() {
-  //Left card constraints for when mouse is in card coordinates
+
   let overlapsCardLeft = false;
 
+  //Variable of all cards not being flipped
+  let allFlip = !cardBackLeft.isFlip && !cardBackMiddle.isFlip && !cardBackRight.isFlip;
+  
+  // //Arrays for Sprite Options
+  // //Left Card Options
+  // let leftSprites = [
+  //   leftCardA,
+  //   leftCardB,
+  //   leftCardC,
+  //   leftCardD,
+  //   leftCardE,
+  //   leftCardF,
+  // ];
+
+  //Middle Card Options
+  // let middleSprites = []
+
+  //Right Card Options
+  //let rightSprites = []
+
+  // //Have Left Card Options be random
+  // let leftResult = random(leftSprites);
+
+  // //Have Middle Card Options be random
+  // let middleResult = random(middleSprites);
+
+  // //Have Right Card Options be random
+  // let rightResult = random(rightSprites);
+
+  //Left card constraints for when mouse is in card coordinates
   if (
     mouseX > cardBackLeft.cardX &&
     mouseX < cardBackLeft.cardX + cardBackLeft.cardW
@@ -424,19 +462,21 @@ function display() {
   }
 
   //If mouse clicks Left card back, card back changes colour to card face colour
-  if (overlapsCardLeft && mouseIsPressed) {
+  if (overlapsCardLeft && mouseIsPressed && allFlip) {
     cardBackLeft.fill.cardBackFill = cardBackLeft.fill.cardFaceFill;
+    cardBackLeft.isFlip = true;
   }
-
-  //If mouse click Middle card back, card back changes colour to card face colour
-  if (overlapsCardMiddle && mouseIsPressed) {
+  //If mouse clicks Middle card back, card back changes colour to card face colour
+  else if (overlapsCardMiddle && mouseIsPressed && allFlip) {
     cardBackMiddle.fill.cardBackFill = cardBackMiddle.fill.cardFaceFill;
+    cardBackMiddle.isFlip = true;
+  }
+  //If mouse clicks Right card back, card back changes colour to card face colour
+  else if (overlapsCardRight && mouseIsPressed && allFlip) {
+    cardBackRight.fill.cardBackFill = cardBackRight.fill.cardFaceFill;
+    cardBackRight.isFlip = true;
   }
 
-  //If mouse clicks Right card back, card back changes colour to card face colour
-  if (overlapsCardRight && mouseIsPressed) {
-    cardBackRight.fill.cardBackFill = cardBackRight.fill.cardFaceFill;
-  }
   //When cardback changes to card face, introduce card result
 }
 
