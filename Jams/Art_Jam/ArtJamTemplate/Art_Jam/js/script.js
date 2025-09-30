@@ -26,6 +26,12 @@ let cardBackLeft = {
     cardBackFill: "#4100F3",
     cardFaceFill: "#FFFFFF",
   },
+  sprite: {
+    path: "",
+    x: 125,
+    y: 190,
+    size: 50,
+  },
 };
 
 let cardBackMiddle = {
@@ -55,53 +61,34 @@ let cardBackRight = {
     cardFaceFill: "#FFFFFF",
   },
 };
-//Card result 1
-let leftCardA = {
-  x: 125,
-  y: 195,
-  size: 50,
-  fill: ("#DE3163"),
-};
 
-//Card result 2
-let leftCardB = {
-  x: 125,
-  y: 195,
-  size: 50,
-  fill: ("#800080"),
-};
-
-//Card result 3
-let leftCardC = {
-  x: 125,
-  y: 195,
-  size: 50,
-  fill: ("#CBFFC0"),
-};
-
-//Card result 4
-let leftCardD = {
-  x: 125,
-  y: 195,
-  size: 50,
-  fill: ("#2E44D1"),
-};
-
-//Card result 5
-let leftCardE = {
-  x: 125,
-  y: 195,
-  size: 50,
-  fill: ("#FFF5C0"),
-};
-
-//Card result 6
-let leftCardF = {
-  x: 125,
-  y: 195,
-  size: 50,
-  fill: ("#C0FFF4"),
-};
+let sprites = {
+  optionA: {
+    image: null,
+    path: "assets/images/clown.png",
+  },
+  optionB: {
+    image: null,
+    path: "",
+  },
+  optionC: {
+    image: null,
+    path: "",
+  }, 
+  optionD: {
+    image: null,
+    path: "",
+  }, 
+  optionE: {
+    image: null,
+    path: "",
+   },
+  optionF: {
+    image: null,
+    path: "",
+  },
+ 
+}
 
 // Heart Properties
 let heartLeft = {
@@ -210,6 +197,14 @@ function setup() {
   //Create Canvas
   createCanvas(650, 450);
   background(192, 234, 240);
+
+  sprites.optionA.image = loadImage(sprites.optionA.path);
+  // sprites.optionB.image = loadImage
+  // sprites.optionC.image = 
+  //   sprites.optionD.image = 
+  //   sprites.optionE.image = 
+  //   sprites.optionF.image = 
+
 }
 
 function draw() {
@@ -354,35 +349,11 @@ function drawHearts() {
 }
 
 function drawResults() {
-  push();
-  fill(leftCardA.fill);
-  ellipse(leftCardA.x, leftCardA.y, leftCardA.size);
-  pop();
 
-  push();
-  fill(leftCardB.fill);
-  ellipse(leftCardB.x, leftCardB.y, leftCardB.size);
-  pop();
-
-  push();
-  fill(leftCardC.fill);
-  ellipse(leftCardC.x, leftCardC.y, leftCardC.size);
-  pop();
-
-  push();
-  fill(leftCardD.fill);
-  ellipse(leftCardD.x, leftCardD.y, leftCardD.size);
-  pop();
-
-  push();
-  fill(leftCardE.fill);
-  ellipse(leftCardE.x, leftCardE.y, leftCardE.size);
-  pop();
-
-  push();
-  fill(leftCardF.fill);
-  ellipse(leftCardF.x, leftCardF.y, leftCardF.size);
-  pop();
+  if (cardBackLeft.isFlip) {
+    //this is sprite :)
+    image(sprites.optionA.image, 125, 190, 10, 10);
+  }
 }
 
 function display() {
@@ -394,14 +365,14 @@ function display() {
   
   // //Arrays for Sprite Options
   // //Left Card Options
-  // let leftSprites = [
-  //   leftCardA,
-  //   leftCardB,
-  //   leftCardC,
-  //   leftCardD,
-  //   leftCardE,
-  //   leftCardF,
-  // ];
+  let leftSprites = [
+    sprites.optionA,
+    sprites.optionB,
+    sprites.optionC,
+    sprites.optionD,
+    sprites.optionE,
+    sprites.optionF,
+  ];
 
   //Middle Card Options
   // let middleSprites = []
@@ -410,9 +381,9 @@ function display() {
   //let rightSprites = []
 
   // //Have Left Card Options be random
-  // let leftResult = random(leftSprites);
+  // let (cardBackLeft.sprite.path) = random(leftSprites);
 
-  // //Have Middle Card Options be random
+  // // //Have Middle Card Options be random
   // let middleResult = random(middleSprites);
 
   // //Have Right Card Options be random
@@ -465,6 +436,7 @@ function display() {
   if (overlapsCardLeft && mouseIsPressed && allFlip) {
     cardBackLeft.fill.cardBackFill = cardBackLeft.fill.cardFaceFill;
     cardBackLeft.isFlip = true;
+    
   }
   //If mouse clicks Middle card back, card back changes colour to card face colour
   else if (overlapsCardMiddle && mouseIsPressed && allFlip) {
