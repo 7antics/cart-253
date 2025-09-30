@@ -30,7 +30,8 @@ let cardBackLeft = {
     path: "",
     x: 125,
     y: 190,
-    size: 50,
+    w: 20,
+    h: 20,
   },
 };
 
@@ -46,6 +47,13 @@ let cardBackMiddle = {
     cardBackFill: "#4100F3",
     cardFaceFill: "#FFFFFF",
   },
+  sprite: {
+    path: "",
+    x: 125,
+    y: 190,
+    w: 20,
+    h: 20,
+  },
 };
 
 let cardBackRight = {
@@ -60,6 +68,13 @@ let cardBackRight = {
     cardBackFill: "#4100F3",
     cardFaceFill: "#FFFFFF",
   },
+  sprite: {
+    path: "",
+    x: 125,
+    y: 190,
+    w: 20,
+    h: 20,
+  },
 };
 
 let sprites = {
@@ -69,26 +84,25 @@ let sprites = {
   },
   optionB: {
     image: null,
-    path: "",
+    path: "assets/images/Icon.png",
   },
   optionC: {
     image: null,
-    path: "",
-  }, 
+    path: "assets/images/downloadimage.png",
+  },
   optionD: {
     image: null,
-    path: "",
-  }, 
+    path: "assets/images/check.jpg",
+  },
   optionE: {
     image: null,
-    path: "",
-   },
+    path: "assets/images/person.png",
+  },
   optionF: {
     image: null,
-    path: "",
+    path: "assets/images/house.png",
   },
- 
-}
+};
 
 // Heart Properties
 let heartLeft = {
@@ -199,12 +213,11 @@ function setup() {
   background(192, 234, 240);
 
   sprites.optionA.image = loadImage(sprites.optionA.path);
-  // sprites.optionB.image = loadImage
-  // sprites.optionC.image = 
-  //   sprites.optionD.image = 
-  //   sprites.optionE.image = 
-  //   sprites.optionF.image = 
-
+  sprites.optionB.image = loadImage(sprites.optionB.path);
+  sprites.optionC.image = loadImage(sprites.optionC.path);
+  sprites.optionD.image = loadImage(sprites.optionD.path);
+  sprites.optionE.image = loadImage(sprites.optionE.path);
+  sprites.optionF.image = loadImage(sprites.optionF.path);
 }
 
 function draw() {
@@ -350,44 +363,101 @@ function drawHearts() {
 
 function drawResults() {
 
-  if (cardBackLeft.isFlip) {
-    //this is sprite :)
-    image(sprites.optionA.image, 125, 190, 10, 10);
-  }
+  // Draw left card's option A result
+ const drawLeftSpriteA = image (
+    sprites.optionA.image,
+    cardBackLeft.sprite.x,
+    cardBackLeft.sprite.y,
+    cardBackLeft.sprite.w,
+    cardBackLeft.sprite.h
+ );
+  
+// Draw left card's option B result
+  const drawLeftSpriteB = image (
+    sprites.optionB.image,
+    cardBackLeft.sprite.x,
+    cardBackLeft.sprite.y,
+    cardBackLeft.sprite.w,
+    cardBackLeft.sprite.h
+  );
+
+// Draw left card's option C result
+  const drawLeftSpriteC = image (
+    sprites.optionC.image,
+    cardBackLeft.sprite.x,
+    cardBackLeft.sprite.y,
+    cardBackLeft.sprite.w,
+    cardBackLeft.sprite.h
+  );
+
+// Draw left card's option D result
+ const drawLeftSpriteD = image (
+    sprites.optionD.image,
+    cardBackLeft.sprite.x,
+    cardBackLeft.sprite.y,
+    cardBackLeft.sprite.w,
+    cardBackLeft.sprite.h
+   );
+  
+//Draw left card's option E result
+ const drawLeftSpriteE = image (
+    sprites.optionE.image,
+    cardBackLeft.sprite.x,
+    cardBackLeft.sprite.y,
+    cardBackLeft.sprite.w,
+    cardBackLeft.sprite.h
+  );
+
+//Draw left card's option F result
+ const drawLeftSpriteF = image (
+    sprites.optionF.image,
+    cardBackLeft.sprite.x,
+    cardBackLeft.sprite.y,
+    cardBackLeft.sprite.w,
+    cardBackLeft.sprite.h
+  );
 }
 
 function display() {
-
   let overlapsCardLeft = false;
 
   //Variable of all cards not being flipped
-  let allFlip = !cardBackLeft.isFlip && !cardBackMiddle.isFlip && !cardBackRight.isFlip;
-  
-  // //Arrays for Sprite Options
-  // //Left Card Options
+  let allFlip =
+    !cardBackLeft.isFlip && !cardBackMiddle.isFlip && !cardBackRight.isFlip;
+
+  //Arrays/List of Sprite Options
+  //Left Card Options
   let leftSprites = [
-    sprites.optionA,
-    sprites.optionB,
-    sprites.optionC,
-    sprites.optionD,
-    sprites.optionE,
-    sprites.optionF,
+    drawLeftSpriteA,
+    drawLeftSpriteB,
+    drawLeftSpriteC,
+    drawLeftSpriteD,
+    drawLeftSpriteE,
+    drawLeftSpriteF,
   ];
 
-  //Middle Card Options
-  // let middleSprites = []
+  //Randomize Left Card Sprite Results
+  let leftResult = random(leftSprites, 5);
 
-  //Right Card Options
-  //let rightSprites = []
+  // //Middle Card Options
+  //   let middleSprites = [
+  //     sprites.optionA,
+  //     sprites.optionB,
+  //     sprites.optionC,
+  //     sprites.optionD,
+  //     sprites.optionE,
+  //     sprites.optionF,
+  //   ];
 
-  // //Have Left Card Options be random
-  // let (cardBackLeft.sprite.path) = random(leftSprites);
-
-  // // //Have Middle Card Options be random
-  // let middleResult = random(middleSprites);
-
-  // //Have Right Card Options be random
-  // let rightResult = random(rightSprites);
+  // //Right Card Options
+  //   let rightSprites = [
+  //     sprites.optionA,
+  //     sprites.optionB,
+  //     sprites.optionC,
+  //     sprites.optionD,
+  //     sprites.optionE,
+  //     sprites.optionF,
+  //  ];
 
   //Left card constraints for when mouse is in card coordinates
   if (
@@ -436,7 +506,7 @@ function display() {
   if (overlapsCardLeft && mouseIsPressed && allFlip) {
     cardBackLeft.fill.cardBackFill = cardBackLeft.fill.cardFaceFill;
     cardBackLeft.isFlip = true;
-    
+    // cardBackLeft.sprite === leftResult;
   }
   //If mouse clicks Middle card back, card back changes colour to card face colour
   else if (overlapsCardMiddle && mouseIsPressed && allFlip) {
