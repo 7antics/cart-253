@@ -49,7 +49,7 @@ let cardBackMiddle = {
   },
   sprite: {
     path: "",
-    x: 125,
+    x: 325,
     y: 190,
     w: 20,
     h: 20,
@@ -70,7 +70,7 @@ let cardBackRight = {
   },
   sprite: {
     path: "",
-    x: 125,
+    x: 525,
     y: 190,
     w: 20,
     h: 20,
@@ -103,6 +103,9 @@ let sprites = {
     path: "assets/images/house.png",
   },
 };
+
+let hasImageDisplayed = false;
+let leftRandom;
 
 // Heart Properties
 let heartLeft = {
@@ -218,13 +221,14 @@ function setup() {
   sprites.optionD.image = loadImage(sprites.optionD.path);
   sprites.optionE.image = loadImage(sprites.optionE.path);
   sprites.optionF.image = loadImage(sprites.optionF.path);
+
+  imageMode(CENTER);
 }
 
 function draw() {
   writeText();
   drawCardBack();
   drawHearts();
-  drawResults();
   display();
 }
 
@@ -361,63 +365,6 @@ function drawHearts() {
   pop();
 }
 
-function drawResults() {
-
-  // Draw left card's option A result
- const drawLeftSpriteA = image (
-    sprites.optionA.image,
-    cardBackLeft.sprite.x,
-    cardBackLeft.sprite.y,
-    cardBackLeft.sprite.w,
-    cardBackLeft.sprite.h
- );
-  
-// Draw left card's option B result
-  const drawLeftSpriteB = image (
-    sprites.optionB.image,
-    cardBackLeft.sprite.x,
-    cardBackLeft.sprite.y,
-    cardBackLeft.sprite.w,
-    cardBackLeft.sprite.h
-  );
-
-// Draw left card's option C result
-  const drawLeftSpriteC = image (
-    sprites.optionC.image,
-    cardBackLeft.sprite.x,
-    cardBackLeft.sprite.y,
-    cardBackLeft.sprite.w,
-    cardBackLeft.sprite.h
-  );
-
-// Draw left card's option D result
- const drawLeftSpriteD = image (
-    sprites.optionD.image,
-    cardBackLeft.sprite.x,
-    cardBackLeft.sprite.y,
-    cardBackLeft.sprite.w,
-    cardBackLeft.sprite.h
-   );
-  
-//Draw left card's option E result
- const drawLeftSpriteE = image (
-    sprites.optionE.image,
-    cardBackLeft.sprite.x,
-    cardBackLeft.sprite.y,
-    cardBackLeft.sprite.w,
-    cardBackLeft.sprite.h
-  );
-
-//Draw left card's option F result
- const drawLeftSpriteF = image (
-    sprites.optionF.image,
-    cardBackLeft.sprite.x,
-    cardBackLeft.sprite.y,
-    cardBackLeft.sprite.w,
-    cardBackLeft.sprite.h
-  );
-}
-
 function display() {
   let overlapsCardLeft = false;
 
@@ -426,38 +373,21 @@ function display() {
     !cardBackLeft.isFlip && !cardBackMiddle.isFlip && !cardBackRight.isFlip;
 
   //Arrays/List of Sprite Options
-  //Left Card Options
+  //Left Card Options from loadimages
   let leftSprites = [
-    drawLeftSpriteA,
-    drawLeftSpriteB,
-    drawLeftSpriteC,
-    drawLeftSpriteD,
-    drawLeftSpriteE,
-    drawLeftSpriteF,
+    sprites.optionA.image,
+    sprites.optionB.image,
+    sprites.optionC.image,
+    sprites.optionD.image,
+    sprites.optionE.image,
+    sprites.optionF.image,
   ];
 
   //Randomize Left Card Sprite Results
-  let leftResult = random(leftSprites, 5);
-
-  // //Middle Card Options
-  //   let middleSprites = [
-  //     sprites.optionA,
-  //     sprites.optionB,
-  //     sprites.optionC,
-  //     sprites.optionD,
-  //     sprites.optionE,
-  //     sprites.optionF,
-  //   ];
-
-  // //Right Card Options
-  //   let rightSprites = [
-  //     sprites.optionA,
-  //     sprites.optionB,
-  //     sprites.optionC,
-  //     sprites.optionD,
-  //     sprites.optionE,
-  //     sprites.optionF,
-  //  ];
+  if (!hasImageDisplayed) {
+    leftRandom = random(leftSprites);
+    hasImageDisplayed = true;
+  }
 
   //Left card constraints for when mouse is in card coordinates
   if (
@@ -506,20 +436,52 @@ function display() {
   if (overlapsCardLeft && mouseIsPressed && allFlip) {
     cardBackLeft.fill.cardBackFill = cardBackLeft.fill.cardFaceFill;
     cardBackLeft.isFlip = true;
-    // cardBackLeft.sprite === leftResult;
   }
+
   //If mouse clicks Middle card back, card back changes colour to card face colour
   else if (overlapsCardMiddle && mouseIsPressed && allFlip) {
     cardBackMiddle.fill.cardBackFill = cardBackMiddle.fill.cardFaceFill;
     cardBackMiddle.isFlip = true;
   }
+
   //If mouse clicks Right card back, card back changes colour to card face colour
   else if (overlapsCardRight && mouseIsPressed && allFlip) {
     cardBackRight.fill.cardBackFill = cardBackRight.fill.cardFaceFill;
     cardBackRight.isFlip = true;
   }
 
-  //When cardback changes to card face, introduce card result
+  // When left card back is flipped, result shows up
+  if (cardBackLeft.isFlip) {
+    image(
+      leftRandom,
+      cardBackLeft.sprite.x,
+      cardBackLeft.sprite.y,
+      cardBackLeft.sprite.w,
+      cardBackLeft.sprite.h
+    );
+
+  }
+  // When middle card back is flipped, result shows up
+  if (cardBackMiddle.isFlip) {
+    image(
+      leftRandom,
+      cardBackMiddle.sprite.x,
+      cardBackMiddle.sprite.y,
+      cardBackMiddle.sprite.w,
+      cardBackMiddle.sprite.h
+    );
+  }
+
+  // When right card back is flipped, result shows up
+  if (cardBackRight.isFlip) {
+    image(
+      leftRandom,
+      cardBackRight.sprite.x,
+      cardBackRight.sprite.y,
+      cardBackRight.sprite.w,
+      cardBackRight.sprite.h
+    );
+  }
 }
 
 //when card result appears, change colour of heart
