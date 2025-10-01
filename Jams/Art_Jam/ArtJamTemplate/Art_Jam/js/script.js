@@ -108,6 +108,8 @@ let sprites = {
 };
 
 // Heart Properties
+let heartBase;
+
 let heartLeft = {
   // Ellipse Size
   ellipseSize: {
@@ -239,6 +241,8 @@ function setup() {
   sprites.optionD.image = loadImage(sprites.optionD.path);
   sprites.optionE.image = loadImage(sprites.optionE.path);
   sprites.optionF.image = loadImage(sprites.optionF.path);
+
+heartBase = heartLeft;
 
   imageMode(CENTER);
 }
