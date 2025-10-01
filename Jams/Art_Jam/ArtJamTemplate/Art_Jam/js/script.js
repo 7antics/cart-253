@@ -137,6 +137,7 @@ let heartLeft = {
     good: "#FF0000",
     bad: "#808080",
   },
+  isEmpty: false,
 };
 
 let heartMiddle = {
@@ -171,6 +172,7 @@ let heartMiddle = {
     good: "#FF0000",
     bad: "#808080",
   },
+  isEmpty: false,
 };
 
 let heartRight = {
@@ -205,10 +207,22 @@ let heartRight = {
     good: "#FF0000",
     bad: "#808080",
   },
+  isEmpty: false,
 };
 
+let txt = {
+  speech: {
+    txtOne: "Pick a card to make Anna's Perfect Day!",
+    txtTwo: "Press SPACE to pick Anna's second task of the Day!",
+    txtThree: "Press SPACE to pick Anna's last task of the Day!",
+  },
+  fill: ("#FFFFFF"),
+  size: 20,
+}
+  
 let hasImageDisplayed = false;
 let veryRandom;
+let hasTextDisplayed = false;
 
 function setup() {
   //Create Canvas
@@ -233,18 +247,31 @@ function draw() {
 }
 
 function writeText() {
+
   push();
-  //Colour of Text
-  fill("#FFFFFF");
-  //Size of text
-  textSize(20);
-  //Alignment of text
-  textAlign(CENTER, CENTER);
-  //Style of text
-  textStyle(BOLDITALIC);
-  //What the text says
-  text("Pick a card to make Anna's Perfect Day!", width / 2, 25);
+  fill(txt.fill);
+  textAlign(CENTER,CENTER);
+  textSize(txt.size);
+  textStyle(BOLDITALIC)
+  text(txt.speech.txtOne, width / 2, 25);
   pop();
+
+  push();
+  fill(txt.fill);
+  textAlign(CENTER,CENTER);
+  textSize(txt.size);
+  textStyle(BOLDITALIC)
+  text(txt.speech.txtTwo, width / 2, 25);
+  pop();
+
+  push();
+  fill(txt.fill);
+  textAlign(CENTER,CENTER);
+  textSize(txt.size);
+  textStyle(BOLDITALIC)
+  text(txt.speech.txtThree, width / 2, 25);
+  pop();
+
 }
 
 function drawCardBack() {
@@ -372,6 +399,9 @@ function display() {
   let allFlip =
     !cardBackLeft.isFlip && !cardBackMiddle.isFlip && !cardBackRight.isFlip;
 
+  let allEmpty =
+    !heartLeft.isEmpty && !heartMiddle.isEmpty && !heartRight.isEmpty;
+  
   //Arrays/List of Sprite Options
   //Left Card Options from loadimages
   let spritesInArray = [
@@ -383,23 +413,23 @@ function display() {
     sprites.optionF.image,
   ];
 
-//Randomize Left Card Sprite Results
+  //Randomize Left Card Sprite Results
   if (!hasImageDisplayed) {
     veryRandom = random(spritesInArray);
     hasImageDisplayed = true;
   }
   
-//Array for good results
+  //Array for good results
   let goodResultArray = [
     sprites.optionD.image,
     sprites.optionE.image,
     sprites.optionF.image,
   ];
 
-//Searching for good results in the random, so it picks the one image being displayed
-let imageIsGood = goodResultArray.includes(veryRandom);
+  //Searching for good results in the random, so it picks the one image being displayed
+  let imageIsGood = goodResultArray.includes(veryRandom);
 
-//Left card constraints for when mouse is in card coordinates
+  //Left card constraints for when mouse is in card coordinates
   if (
     mouseX > cardBackLeft.cardX &&
     mouseX < cardBackLeft.cardX + cardBackLeft.cardW
@@ -493,35 +523,54 @@ let imageIsGood = goodResultArray.includes(veryRandom);
     );
   }
 
-// If the left card back is flipped AND produces a good result, fill the heart the good colour
-if (cardBackLeft.isFlip && imageIsGood) {
- heartLeft.fill = heartLeft.fills.good;
-}
+  // If the left card back is flipped AND produces a good result, fill the left heart the good colour
+  if (cardBackLeft.isFlip && imageIsGood) {
+    heartLeft.fill = heartLeft.fills.good;
+  }
   else if (cardBackLeft.isFlip && !imageIsGood) {
     heartLeft.fill = heartLeft.fills.bad;
-}
-
-// If the middle card back is flipped AND produces a good result, fill the heart the good colour
-  if (cardBackMiddle.isFlip && imageIsGood) {
-  heartLeft.fill = heartLeft.fills.good;
-}
-  else if (cardBackMiddle.isFlip && !imageIsGood) {
-    heartLeft.fill = heartLeft.fills.bad; 
   }
 
-// If the right card back is flipped AND produces a good result, fill the heart the good colour
+  // If the middle card back is flipped AND produces a good result, fill the left heart the good colour
+  if (cardBackMiddle.isFlip && imageIsGood) {
+    heartLeft.fill = heartLeft.fills.good;
+  }
+  else if (cardBackMiddle.isFlip && !imageIsGood) {
+    heartLeft.fill = heartLeft.fills.bad;
+  }
+
+  // If the right card back is flipped AND produces a good result, fill the left heart the good colour
   if (cardBackRight.isFlip && imageIsGood) {
-   heartLeft.fill = heartLeft.fills.good;
+    heartLeft.fill = heartLeft.fills.good;
   }
   else if (cardBackRight.isFlip && !imageIsGood) {
     heartLeft.fill = heartLeft.fills.bad;
   }
 
+  //If all hearts are empty, display text one
+  if (allEmpty) {
+    txt.speech.txtOne;
+  }
+  //If one heart is filled, display text two
+  else if (heartLeft.fill == !heartLeft.fills.base) {
+    txt.speech.txtTwo;
+  }
+  //If two hearts are filled, display text three
+  else if (heartMiddle.fill == !heartMiddle.fills.base) {
+    txt.speech.txtThree;
+  }
+}
+  
+  //     if (heartRight.fill == !heartRight.fills.base) {
+  //     }
+  //   }
+  // }
 
   
-}
+  
 
-//Once heart colour changes, reset card backs
+//Once heart colour changes, reset card backs by using space key
+//display text "Use Space Key to for a second shuffle!"
 
 //Once all three hearts are full, display end scene
 
