@@ -31,8 +31,8 @@ let cardBackLeft = {
     path: "",
     x: 125,
     y: 190,
-    w: 20,
-    h: 20,
+    w: 64,
+    h: 64,
   },
 };
 
@@ -53,8 +53,8 @@ let cardBackMiddle = {
     path: "",
     x: 325,
     y: 190,
-    w: 20,
-    h: 20,
+    w: 64,
+    h: 64,
   },
 };
 
@@ -75,35 +75,35 @@ let cardBackRight = {
     path: "",
     x: 525,
     y: 190,
-    w: 20,
-    h: 20,
+    w: 64,
+    h: 64,
   },
 };
 
 let sprites = {
   optionA: {
     image: null,
-    path: "assets/images/clown.png",
+    path: "assets/images/work.png",
   },
   optionB: {
     image: null,
-    path: "assets/images/Icon.png",
+    path: "assets/images/cleaning.png",
   },
   optionC: {
     image: null,
-    path: "assets/images/downloadimage.png",
+    path: "assets/images/hw.png",
   },
   optionD: {
     image: null,
-    path: "assets/images/check.jpg",
+    path: "assets/images/reading.png",
   },
   optionE: {
     image: null,
-    path: "assets/images/person.png",
+    path: "assets/images/sleep.png",
   },
   optionF: {
     image: null,
-    path: "assets/images/house.png",
+    path: "assets/images/eat.png",
   },
 };
 
@@ -225,6 +225,18 @@ let txt = {
   fill: ("#000000"),
   size: 20,
 }
+
+let endTxt = {
+  str: "",
+  speech: {
+    txtOne: "Great Job! That's one Perfect Day!",
+    txtTwo: "Not bad! What's a little responsiblity with a lot of reward",
+    txtThree: "Could be... Worse...",
+    txtFour: "Yikes! That's a Bad Day!",
+    fill: ("#FFFFFFFF"), 
+    size: 20,
+  }
+}
   
 let hasImageDisplayed = false;
 let hasTextDisplayed = false;
@@ -252,17 +264,28 @@ function draw() {
   writeText();
   drawCardBack();
   drawHearts();
+  drawEndScene();
   display();
 }
 
 function writeText() {
 
+  //Instructions
   push();
   fill(txt.fill);
   textAlign(CENTER,CENTER);
   textSize(txt.size);
-  textStyle(BOLDITALIC)
+  textStyle(BOLDITALIC);
   text(txt.str, width / 2, 25);
+  pop();
+
+  //End scene text
+  push();
+  fill(endTxt.fill);
+  textAlign(CENTER, CENTER);
+  textSize(endTxt.size);
+  textStyle(BOLDITALIC);
+  text(endTxt.str, width / 2, height / 2);
   pop();
 
 }
@@ -383,6 +406,10 @@ function drawHearts() {
     heartRight.triPos.yThree
   );
   pop();
+}
+
+function drawEndScene() {
+
 }
 
 function display() {
@@ -561,13 +588,28 @@ function display() {
     hasImageDisplayed = false;
 }
 
+  if (heartMiddle.fill != heartMiddle.fills.base && keyIsPressed) {
+    cardBackLeft.fill = cardBackLeft.fills.cardBackFill;
+    cardBackMiddle.fill = cardBackMiddle.fills.cardBackFill;
+    cardBackRight.fill = cardBackRight.fills.cardBackFill;
+    cardBackLeft.isFlip = false;
+    cardBackMiddle.isFlip = false;
+    cardBackRight.isFlip = false;
+    hasImageDisplayed = false;
+}
+
+  if (heartRight.fill != heartRight.fills.base && keyIsPressed) {
+    cardBackLeft.fill = cardBackLeft.fills.cardBackFill;
+    cardBackMiddle.fill = cardBackMiddle.fills.cardBackFill;
+    cardBackRight.fill = cardBackRight.fills.cardBackFill;
+    cardBackLeft.isFlip = false;
+    cardBackMiddle.isFlip = false;
+    cardBackRight.isFlip = false;
+    hasImageDisplayed = false;
 }
 
   
-  
-
-//Once heart colour changes, reset card backs by using space key
-//display text "Use Space Key to for a second shuffle!"
+}
 
 //Once all three hearts are full, display end scene
 
