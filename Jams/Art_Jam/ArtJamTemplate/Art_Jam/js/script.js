@@ -410,6 +410,12 @@ function drawHearts() {
 
 function drawEndScene() {
 
+  push();
+  fill("#000000");
+  rect(0, 0, 650, 450,
+  );
+  pop();
+
 }
 
 function display() {
@@ -598,14 +604,11 @@ function display() {
     hasImageDisplayed = false;
 }
 
-  if (heartRight.fill != heartRight.fills.base && keyIsPressed) {
+  if (!heartsEmpty && keyIsPressed) {
     cardBackLeft.fill = cardBackLeft.fills.cardBackFill;
     cardBackMiddle.fill = cardBackMiddle.fills.cardBackFill;
     cardBackRight.fill = cardBackRight.fills.cardBackFill;
-    cardBackLeft.isFlip = false;
-    cardBackMiddle.isFlip = false;
-    cardBackRight.isFlip = false;
-    hasImageDisplayed = false;
+    
 }
 
   
