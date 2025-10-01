@@ -104,9 +104,6 @@ let sprites = {
   },
 };
 
-let hasImageDisplayed = false;
-let leftRandom;
-
 // Heart Properties
 let heartLeft = {
   // Ellipse Size
@@ -209,6 +206,9 @@ let heartRight = {
     bad: "#808080",
   },
 };
+
+let hasImageDisplayed = false;
+let veryRandom;
 
 function setup() {
   //Create Canvas
@@ -374,7 +374,7 @@ function display() {
 
   //Arrays/List of Sprite Options
   //Left Card Options from loadimages
-  let leftSprites = [
+  let spritesInArray = [
     sprites.optionA.image,
     sprites.optionB.image,
     sprites.optionC.image,
@@ -383,13 +383,23 @@ function display() {
     sprites.optionF.image,
   ];
 
-  //Randomize Left Card Sprite Results
+//Randomize Left Card Sprite Results
   if (!hasImageDisplayed) {
-    leftRandom = random(leftSprites);
+    veryRandom = random(spritesInArray);
     hasImageDisplayed = true;
   }
+  
+//Array for good results
+  let goodResultArray = [
+    sprites.optionD.image,
+    sprites.optionE.image,
+    sprites.optionF.image,
+  ];
 
-  //Left card constraints for when mouse is in card coordinates
+//Searching for good results in the random, so it picks the one image being displayed
+let imageIsGood = goodResultArray.includes(veryRandom);
+
+//Left card constraints for when mouse is in card coordinates
   if (
     mouseX > cardBackLeft.cardX &&
     mouseX < cardBackLeft.cardX + cardBackLeft.cardW
@@ -453,7 +463,7 @@ function display() {
   // When left card back is flipped, result shows up
   if (cardBackLeft.isFlip) {
     image(
-      leftRandom,
+      veryRandom,
       cardBackLeft.sprite.x,
       cardBackLeft.sprite.y,
       cardBackLeft.sprite.w,
@@ -464,7 +474,7 @@ function display() {
   // When middle card back is flipped, result shows up
   if (cardBackMiddle.isFlip) {
     image(
-      leftRandom,
+      veryRandom,
       cardBackMiddle.sprite.x,
       cardBackMiddle.sprite.y,
       cardBackMiddle.sprite.w,
@@ -475,16 +485,41 @@ function display() {
   // When right card back is flipped, result shows up
   if (cardBackRight.isFlip) {
     image(
-      leftRandom,
+      veryRandom,
       cardBackRight.sprite.x,
       cardBackRight.sprite.y,
       cardBackRight.sprite.w,
       cardBackRight.sprite.h
     );
   }
+
+// If the left card back is flipped AND produces a good result, fill the heart the good colour
+if (cardBackLeft.isFlip && imageIsGood) {
+ heartLeft.fill = heartLeft.fills.good;
+}
+  else if (cardBackLeft.isFlip && !imageIsGood) {
+    heartLeft.fill = heartLeft.fills.bad;
 }
 
-//when card result appears, change colour of heart
+// If the middle card back is flipped AND produces a good result, fill the heart the good colour
+  if (cardBackMiddle.isFlip && imageIsGood) {
+  heartLeft.fill = heartLeft.fills.good;
+}
+  else if (cardBackMiddle.isFlip && !imageIsGood) {
+    heartLeft.fill = heartLeft.fills.bad; 
+  }
+
+// If the right card back is flipped AND produces a good result, fill the heart the good colour
+  if (cardBackRight.isFlip && imageIsGood) {
+   heartLeft.fill = heartLeft.fills.good;
+  }
+  else if (cardBackRight.isFlip && !imageIsGood) {
+    heartLeft.fill = heartLeft.fills.bad;
+  }
+
+
+  
+}
 
 //Once heart colour changes, reset card backs
 
