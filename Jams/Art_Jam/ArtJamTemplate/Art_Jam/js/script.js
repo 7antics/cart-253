@@ -22,7 +22,8 @@ let cardBackLeft = {
   cardH: 300,
   isFlip: false,
   //Card Back Colour
-  fill: {
+  fill:"#4100F3",
+  fills: {
     cardBackFill: "#4100F3",
     cardFaceFill: "#FFFFFF",
   },
@@ -43,7 +44,8 @@ let cardBackMiddle = {
   cardH: 300,
   isFlip: false,
   //Card Back Colour
-  fill: {
+  fill:"#4100F3",
+  fills: {
     cardBackFill: "#4100F3",
     cardFaceFill: "#FFFFFF",
   },
@@ -64,7 +66,8 @@ let cardBackRight = {
   cardH: 300,
   isFlip: false,
   //Card Back Colour
-  fill: {
+  fill:"#4100F3",
+  fills: {
     cardBackFill: "#4100F3",
     cardFaceFill: "#FFFFFF",
   },
@@ -211,23 +214,24 @@ let heartRight = {
 };
 
 let txt = {
+  str: "",
   speech: {
     txtOne: "Pick a card to make Anna's Perfect Day!",
-    txtTwo: "Press SPACE to pick Anna's second task of the Day!",
-    txtThree: "Press SPACE to pick Anna's last task of the Day!",
+    txtTwo: "Press ANY KEY to pick Anna's second task of the Day!",
+    txtThree: "Press ANY KEY to pick Anna's last task of the Day!",
   },
-  fill: ("#FFFFFF"),
+  fill: ("#000000"),
   size: 20,
 }
   
 let hasImageDisplayed = false;
-let veryRandom;
 let hasTextDisplayed = false;
+let veryRandom;
+
 
 function setup() {
   //Create Canvas
   createCanvas(650, 450);
-  background(192, 234, 240);
 
   sprites.optionA.image = loadImage(sprites.optionA.path);
   sprites.optionB.image = loadImage(sprites.optionB.path);
@@ -240,6 +244,7 @@ function setup() {
 }
 
 function draw() {
+  background(192, 234, 240);
   writeText();
   drawCardBack();
   drawHearts();
@@ -253,23 +258,7 @@ function writeText() {
   textAlign(CENTER,CENTER);
   textSize(txt.size);
   textStyle(BOLDITALIC)
-  text(txt.speech.txtOne, width / 2, 25);
-  pop();
-
-  push();
-  fill(txt.fill);
-  textAlign(CENTER,CENTER);
-  textSize(txt.size);
-  textStyle(BOLDITALIC)
-  text(txt.speech.txtTwo, width / 2, 25);
-  pop();
-
-  push();
-  fill(txt.fill);
-  textAlign(CENTER,CENTER);
-  textSize(txt.size);
-  textStyle(BOLDITALIC)
-  text(txt.speech.txtThree, width / 2, 25);
+  text(txt.str, width / 2, 25);
   pop();
 
 }
@@ -278,7 +267,7 @@ function drawCardBack() {
   // Left Card Back
   push();
   noStroke();
-  fill(cardBackLeft.fill.cardBackFill);
+  fill(cardBackLeft.fill);
   rect(
     cardBackLeft.cardX,
     cardBackLeft.cardY,
@@ -290,7 +279,7 @@ function drawCardBack() {
   // Middle Card Back
   push();
   noStroke();
-  fill(cardBackMiddle.fill.cardBackFill);
+  fill(cardBackMiddle.fill);
   rect(
     cardBackMiddle.cardX,
     cardBackMiddle.cardY,
@@ -302,7 +291,7 @@ function drawCardBack() {
   // Right Card Back
   push();
   noStroke();
-  fill(cardBackRight.fill.cardBackFill);
+  fill(cardBackRight.fill);
   rect(
     cardBackRight.cardX,
     cardBackRight.cardY,
@@ -396,11 +385,11 @@ function display() {
   let overlapsCardLeft = false;
 
   //Variable of all cards not being flipped
-  let allFlip =
+  let areAllFaceDown =
     !cardBackLeft.isFlip && !cardBackMiddle.isFlip && !cardBackRight.isFlip;
 
-  let allEmpty =
-    !heartLeft.isEmpty && !heartMiddle.isEmpty && !heartRight.isEmpty;
+  let heartsEmpty =
+    heartLeft.fills.base && heartMiddle.fills.base && heartRight.fills.base;
   
   //Arrays/List of Sprite Options
   //Left Card Options from loadimages
@@ -473,20 +462,20 @@ function display() {
   }
 
   //If mouse clicks Left card back, card back changes colour to card face colour
-  if (overlapsCardLeft && mouseIsPressed && allFlip) {
-    cardBackLeft.fill.cardBackFill = cardBackLeft.fill.cardFaceFill;
+  if (overlapsCardLeft && mouseIsPressed && areAllFaceDown) {
+    cardBackLeft.fill = cardBackLeft.fills.cardFaceFill;
     cardBackLeft.isFlip = true;
   }
 
   //If mouse clicks Middle card back, card back changes colour to card face colour
-  else if (overlapsCardMiddle && mouseIsPressed && allFlip) {
-    cardBackMiddle.fill.cardBackFill = cardBackMiddle.fill.cardFaceFill;
+  else if (overlapsCardMiddle && mouseIsPressed && areAllFaceDown) {
+    cardBackMiddle.fill = cardBackMiddle.fills.cardFaceFill;
     cardBackMiddle.isFlip = true;
   }
 
   //If mouse clicks Right card back, card back changes colour to card face colour
-  else if (overlapsCardRight && mouseIsPressed && allFlip) {
-    cardBackRight.fill.cardBackFill = cardBackRight.fill.cardFaceFill;
+  else if (overlapsCardRight && mouseIsPressed && areAllFaceDown) {
+    cardBackRight.fill = cardBackRight.fills.cardFaceFill;
     cardBackRight.isFlip = true;
   }
 
@@ -548,23 +537,27 @@ function display() {
   }
 
   //If all hearts are empty, display text one
-  if (allEmpty) {
-    txt.speech.txtOne;
+  if (heartLeft.fill == heartLeft.fills.base) {
+    txt.str = txt.speech.txtOne;
   }
-  //If one heart is filled, display text two
-  else if (heartLeft.fill == !heartLeft.fills.base) {
-    txt.speech.txtTwo;
+  else if (heartLeft.fill != heartLeft.fills.base) {
+    txt.str = txt.speech.txtTwo;
   }
-  //If two hearts are filled, display text three
-  else if (heartMiddle.fill == !heartMiddle.fills.base) {
-    txt.speech.txtThree;
+  else if (heartMiddle.fill != heartMiddle.fills.base) {
+    txt.str = txt.speech.txtThree;
   }
+
+  if (heartLeft.fill != heartLeft.fills.base && keyIsPressed) {
+    cardBackLeft.fill = cardBackLeft.fills.cardBackFill;
+    cardBackMiddle.fill = cardBackMiddle.fills.cardBackFill;
+    cardBackRight.fill = cardBackRight.fills.cardBackFill;
+    cardBackLeft.isFlip = false;
+    cardBackMiddle.isFlip = false;
+    cardBackRight.isFlip = false;
+    hasImageDisplayed = false;
 }
-  
-  //     if (heartRight.fill == !heartRight.fills.base) {
-  //     }
-  //   }
-  // }
+
+}
 
   
   
