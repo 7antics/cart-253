@@ -221,6 +221,7 @@ let txt = {
     txtOne: "Pick a card to make Anna's Perfect Day!",
     txtTwo: "Press ANY KEY to pick Anna's second task of the Day!",
     txtThree: "Press ANY KEY to pick Anna's last task of the Day!",
+    txtFour: "Click THE MOUSE to see how Anna's day went!",
   },
   fill: "#000000",
   size: 20,
@@ -238,14 +239,22 @@ let endTxt = {
   size: 20,
 };
 
+//For the Randomizer of the Sprites
 let hasImageDisplayed = false;
-let hasTextDisplayed = false;
-let hasEndDisplayed = false;
-let heartIsFilled = 0;
-let cardHasFlippedValue = 0;
-let heartsFilled = false;
-
 let veryRandom;
+
+//For the result text
+let hasTextDisplayed = 0;
+
+//For the black screen to appear
+let hasEndDisplayed = false;
+
+//For the counter of the cards flipped to fill the hearts
+let cardHasFlippedValue = 0;
+let maxCounterValue = 7;
+
+//For the amount of hearts that turn red
+let heartsRed = 3;
 
 function setup() {
   //Create Canvas
@@ -269,7 +278,6 @@ function draw() {
   writeText();
   drawCardBack();
   drawHearts();
-  // drawEndScene();
   display();
   console.log(cardHasFlippedValue);
 }
@@ -413,14 +421,7 @@ function drawHearts() {
   pop();
 }
 
-function drawEndScene() {
-  if (hasEndDisplayed === true) {
-    push();
-    fill("#000000");
-    rect(0, 0, 650, 450);
-    pop();
-  }
-}
+// function keyPressed() {}
 
 function display() {
   let overlapsCardLeft = false;
@@ -458,7 +459,6 @@ function display() {
 
   //Searching for good results in the random, so it picks the one image being displayed
   let imageIsGood = goodResultArray.includes(veryRandom);
-  console.log(imageIsGood);
 
   //Left card constraints for when mouse is in card coordinates
   if (
@@ -507,21 +507,30 @@ function display() {
   if (overlapsCardLeft && mouseIsPressed && areAllFaceDown) {
     cardBackLeft.fill = cardBackLeft.fills.cardFaceFill;
     cardBackLeft.isFlip = true;
-    cardHasFlippedValue++;
+    if (cardHasFlippedValue < maxCounterValue) {
+      cardHasFlippedValue++;
+    } else {
+    }
   }
 
   //If mouse clicks Middle card back, card back changes colour to card face colour
   else if (overlapsCardMiddle && mouseIsPressed && areAllFaceDown) {
     cardBackMiddle.fill = cardBackMiddle.fills.cardFaceFill;
     cardBackMiddle.isFlip = true;
-    cardHasFlippedValue++;
+    if (cardHasFlippedValue < maxCounterValue) {
+      cardHasFlippedValue++;
+    } else {
+    }
   }
 
   //If mouse clicks Right card back, card back changes colour to card face colour
   else if (overlapsCardRight && mouseIsPressed && areAllFaceDown) {
     cardBackRight.fill = cardBackRight.fills.cardFaceFill;
     cardBackRight.isFlip = true;
-    cardHasFlippedValue++;
+    if (cardHasFlippedValue < maxCounterValue) {
+      cardHasFlippedValue++;
+    } else {
+    }
   }
 
   // When left card back is flipped, result shows up
@@ -556,7 +565,12 @@ function display() {
     );
   }
 
-  //If the left heart is filled and any key is pressed, return card face to card back
+  //If all hearts are empty, display text one
+  if (heartLeft.fill == heartLeft.fills.base) {
+    txt.str = txt.speech.txtOne;
+  }
+
+  //If the left heart is filled and any key is pressed, return card face to card back, and display text
   if (heartLeft.fill != heartLeft.fills.base && keyIsPressed) {
     cardBackLeft.fill = cardBackLeft.fills.cardBackFill;
     cardBackMiddle.fill = cardBackMiddle.fills.cardBackFill;
@@ -566,6 +580,8 @@ function display() {
     cardBackRight.isFlip = false;
     hasImageDisplayed = false;
   }
+
+  //If the Middle heart is filled any key is pressed, return card face to card back, and display text
   if (
     heartLeft.fill != heartLeft.fills.base &&
     heartMiddle.fill != heartMiddle.fills.base &&
@@ -580,54 +596,88 @@ function display() {
     hasImageDisplayed = false;
   }
 
+  //If the first cardback is flipped/counter hits 1, fill the left heart and display text
   if (cardHasFlippedValue === 1) {
     if (imageIsGood) {
       heartLeft.fill = heartLeft.fills.good;
       cardHasFlippedValue++;
+      txt.str = txt.speech.txtOne;
+      heartsRed++;
     } else if (imageIsGood === false) {
       heartLeft.fill = heartLeft.fills.bad;
       cardHasFlippedValue++;
+      txt.str = txt.speech.txtTwo;
+      heartsRed--;
     }
   }
-
+  //If the second cardback is flipped/counter hits 3, fill the middle heart and display text
   if (cardHasFlippedValue === 3) {
     if (imageIsGood) {
       heartMiddle.fill = heartMiddle.fills.good;
       cardHasFlippedValue++;
+      txt.str = txt.speech.txtThree;
+      heartsRed++;
     } else if (imageIsGood === false) {
       heartMiddle.fill = heartMiddle.fills.bad;
       cardHasFlippedValue++;
+      txt.str = txt.speech.txtThree;
+      heartsRed--;
     }
   }
 
+  //If the third cardback is flipped/counter hits 5, fill the right heart and display t7
   if (cardHasFlippedValue === 5) {
     if (imageIsGood) {
       heartRight.fill = heartRight.fills.good;
       cardHasFlippedValue++;
+      txt.str = txt.speech.txtFour;
+      heartsRed++;
     } else if (imageIsGood === false) {
       heartRight.fill = heartRight.fills.bad;
       cardHasFlippedValue++;
+      txt.str = txt.speech.txtFour;
+      heartsRed--;
     }
   }
 
-  //If all hearts are empty, display text one
-  if (heartLeft.fill == heartLeft.fills.base) {
-    txt.str = txt.speech.txtOne;
-  } else if (heartLeft.fill != heartLeft.fills.base) {
-    txt.str = txt.speech.txtTwo;
-  } else if (heartMiddle.fill != heartMiddle.fills.base) {
-    txt.str = txt.speech.txtThree;
-  }
+  if ((hasEndDisplayed = true && cardHasFlippedValue === 7)) {
+    push();
+    fill("#000000");
+    rect(0, 0, 650, 450);
+    pop();
 
-  //If the middle heart is filled and any key is pressed, return card face to card back
+    //If all the hearts are filled and key is pressed, draw and display End scene
+    if (heartsRed === 6) {
+      endTxt.str = endTxt.speech.txtOne;
 
-  if (
-    heartMiddle.isFilled &&
-    heartRight.fill != heartRight.fills.base &&
-    keyIsPressed
-  ) {
-    hasEndDisplayed = true;
+      console.log("a");
+    } else if (heartsRed === null) {
+      endTxt.str = endTxt.speech.txtTwo;
+
+      console.log("b");
+    } else if (heartsRed === null) {
+      endTxt.str = endTxt.speech.txtThree;
+
+      console.log("c");
+    } else if (heartsRed === 0) {
+      endTxt.str = endTxt.speech.txtFour;
+    }
   }
 }
 
-// switch (heartsRed.value)
+//mAYBE make the value 0 and make it only addition, if so
+//3 red = 6
+//2 red = 4
+//1 red = 2
+//0 red = 1
+
+// //If all the hearts are filled and key is pressed, draw and display End scene
+// if (heartsRed === 6 && hasEndDisplayed && cardHasFlippedValue === 7) {
+//   endTxt.str = endTxt.speech.txtOne;
+// } else if (heartsRed === 5 && hasEndDisplayed && cardHasFlippedValue === 7) {
+//   endTxt.str = endTxt.speech.txtTwo;
+// } else if (heartsRed === 1 && hasEndDisplayed && cardHasFlippedValue === 7) {
+//   endTxt.str = endTxt.speech.txtThree;
+// } else if (heartsRed === 0 && hasEndDisplayed && cardHasFlippedValue === 7) {
+//   endTxt.str = endTxt.speech.txtFour;
+// }
