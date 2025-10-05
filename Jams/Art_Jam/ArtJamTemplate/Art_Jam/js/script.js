@@ -31,8 +31,8 @@ let cardBackLeft = {
     path: "",
     x: 125,
     y: 190,
-    w: 64,
-    h: 64,
+    w: 120,
+    h: 120,
   },
 };
 
@@ -53,8 +53,8 @@ let cardBackMiddle = {
     path: "",
     x: 325,
     y: 190,
-    w: 64,
-    h: 64,
+    w: 120,
+    h: 120,
   },
 };
 
@@ -75,8 +75,8 @@ let cardBackRight = {
     path: "",
     x: 525,
     y: 190,
-    w: 64,
-    h: 64,
+    w: 120,
+    h: 120,
   },
 };
 
@@ -221,9 +221,9 @@ let txt = {
   str: "",
   speech: {
     txtOne: "Pick a card to make Anna's Perfect Day!",
-    txtTwo: "Press ANY KEY to pick Anna's second task of the Day!",
-    txtThree: "Press ANY KEY to pick Anna's last task of the Day!",
-    txtFour: "Click THE MOUSE to see how Anna's day went!",
+    txtTwo: "Press ANY KEY to reset & pick Anna's second task of the Day!",
+    txtThree: "Press ANY KEY to reset & pick Anna's last task of the Day!",
+    txtFour: "Press ANY KEY & click THE MOUSE to see how Anna's day went!",
   },
 };
 
@@ -242,6 +242,8 @@ let endTxt = {
 //For the Randomizer of the Sprites
 let hasImageDisplayed = false;
 let veryRandom;
+let kindaRandom;
+let defRandom;
 
 //For the result text
 let hasTextDisplayed = 0;
@@ -275,12 +277,9 @@ function setup() {
 function draw() {
   background(192, 234, 240);
   drawCardBack();
-
   display();
   drawHearts();
   writeText();
-
-  console.log(cardHasFlippedValue);
 }
 
 function writeText() {
@@ -422,8 +421,6 @@ function drawHearts() {
   pop();
 }
 
-// function keyPressed() {}
-
 function display() {
   let overlapsCardLeft = false;
 
@@ -444,13 +441,15 @@ function display() {
     sprites.optionE.image,
     sprites.optionF.image,
   ];
-
   //Randomize Left Card Sprite Results
+  let shuffleResults = shuffle(spritesInArray);
+
   if (!hasImageDisplayed) {
-    veryRandom = random(spritesInArray);
+    veryRandom = shuffleResults[0];
+    kindaRandom = shuffleResults[1];
+    defRandom = shuffleResults[2];
     hasImageDisplayed = true;
   }
-
   //Array for good results
   let goodResultArray = [
     sprites.optionD.image,
@@ -653,16 +652,12 @@ function display() {
     pop();
     if (colourCounter === 3) {
       endTxt.str = endTxt.speech.txtOne;
-      console.log("a");
     } else if (colourCounter === 2) {
       endTxt.str = endTxt.speech.txtTwo;
-      console.log("b");
     } else if (colourCounter === 1) {
       endTxt.str = endTxt.speech.txtThree;
-      console.log("c");
     } else if (colourCounter === 0) {
       endTxt.str = endTxt.speech.txtFour;
-      console.log("d");
     }
   }
 }
