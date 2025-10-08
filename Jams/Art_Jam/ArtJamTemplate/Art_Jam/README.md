@@ -1,7 +1,7 @@
 A Perfect Day!
 Anna Tsirbas
 
-[View this project online](https://7antics.github.io/cart-253/main/Jams/Art_Jam/ArtJamTemplate/Art_Jam)
+[View this project online](https://7antics.github.io/cart-253/Jams/Art_Jam/ArtJamTemplate/Art_Jam)
 
 ## Description
 
