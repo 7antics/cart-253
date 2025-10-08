@@ -12,13 +12,13 @@ By choosing a terrible task, Anna's perfect day will be at peril! Pick wisely or
 
 ## Screenshot(s)
 
-This bit should have some images of the program running so that the reader has a sense of what it looks like. For example:
-
-> ![Image of a clown face](./assets/images/clown.png)
+> [Image of Anna cleaning] (./assets/images/cleaning.png)
+> [Image of Anna doing Homework] (./assets/images/hw.png)
+> [Image of Anna at work] (./assets/images/work.png)
+> [Image of Anna reading] a book (./assets/images/reading.png)
+> [Image of Anna eating] (./assets/images/eat.png)
+> [Image of Anna sleeping] (./assets/images/sleep.png)
 
 ## Attribution
 
-This bit should attribute any code, assets or other elements used taken from other sources. For example:
-
-> - This project uses [p5.js](https://p5js.org).
-> - The barking sound effect is "single dog bark 1" by crazymonke9 from freesound.org: https://freesound.org/people/crazymonke9/sounds/418107/
+> This project uses [p5.js](https://p5js.org).

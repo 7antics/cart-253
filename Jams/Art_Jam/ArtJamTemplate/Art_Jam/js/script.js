@@ -269,8 +269,6 @@ function setup() {
   sprites.optionE.image = loadImage(sprites.optionE.path);
   sprites.optionF.image = loadImage(sprites.optionF.path);
 
-  heartBase = heartLeft;
-
   imageMode(CENTER);
 }
 
@@ -428,9 +426,6 @@ function display() {
   let areAllFaceDown =
     !cardBackLeft.isFlip && !cardBackMiddle.isFlip && !cardBackRight.isFlip;
 
-  let heartsEmpty =
-    heartLeft.fills.base && heartMiddle.fills.base && heartRight.fills.base;
-
   //Arrays/List of Sprite Options
   //Left Card Options from loadimages
   let spritesInArray = [
@@ -576,7 +571,6 @@ function display() {
     cardBackLeft.fill = cardBackLeft.fills.cardBackFill;
     cardBackMiddle.fill = cardBackMiddle.fills.cardBackFill;
     cardBackRight.fill = cardBackRight.fills.cardBackFill;
-
     cardBackLeft.isFlip = false;
     cardBackMiddle.isFlip = false;
     cardBackRight.isFlip = false;
@@ -645,6 +639,7 @@ function display() {
     }
   }
 
+  //Added end text if end scene shows and counter of good hearts shows specific text
   if ((hasEndDisplayed = true && cardHasFlippedValue === 7)) {
     push();
     fill("#000000");
