@@ -7,7 +7,7 @@
 5.making something else try to eat the flies
 6.obstacles
 7.add rain/storm elements
-8.add a timer or something to show how hungry the frog gets
+8.add a timer or something to show/or track how hungry the frog gets
 9.m
 10.m
 11.m

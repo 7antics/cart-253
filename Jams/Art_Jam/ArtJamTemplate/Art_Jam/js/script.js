@@ -594,47 +594,45 @@ function display() {
 
   //If the first cardback is flipped/counter hits 1, fill the left heart and display text
   if (cardHasFlippedValue === 1) {
+    txt.str = txt.speech.txtTwo;
     if (imageIsGood) {
       heartLeft.fill = heartLeft.fills.good;
       cardHasFlippedValue++;
-      txt.str = txt.speech.txtOne;
       colourCounter++;
       endTxt.str;
     } else if (imageIsGood === false) {
       heartLeft.fill = heartLeft.fills.bad;
       cardHasFlippedValue++;
-      txt.str = txt.speech.txtTwo;
       endTxt.str;
     }
   }
   //If the second cardback is flipped/counter hits 3, fill the middle heart and display text
   if (cardHasFlippedValue === 3) {
+    txt.str = txt.speech.txtThree;
     if (imageIsGood) {
       heartMiddle.fill = heartMiddle.fills.good;
       cardHasFlippedValue++;
-      txt.str = txt.speech.txtThree;
       colourCounter++;
       endTxt.str;
     } else if (imageIsGood === false) {
       heartMiddle.fill = heartMiddle.fills.bad;
       cardHasFlippedValue++;
-      txt.str = txt.speech.txtThree;
       endTxt.str;
     }
   }
 
   //If the third cardback is flipped/counter hits 5, fill the right heart and display t7
   if (cardHasFlippedValue === 5) {
+    txt.str = txt.speech.txtFour;
     if (imageIsGood) {
       heartRight.fill = heartRight.fills.good;
       cardHasFlippedValue++;
-      txt.str = txt.speech.txtFour;
+
       colourCounter++;
       endTxt.str;
     } else if (imageIsGood === false) {
       heartRight.fill = heartRight.fills.bad;
       cardHasFlippedValue++;
-      txt.str = txt.speech.txtFour;
       endTxt.str;
     }
   }
