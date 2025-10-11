@@ -8,7 +8,7 @@
 6.Obstacles
 7.Add rain/storm elements
 8.Add a timer or something to show/or track how hungry the frog gets
-9.m
+9.Make frog have a second phase/ add check points
 10.m
 11.m
 12.m
