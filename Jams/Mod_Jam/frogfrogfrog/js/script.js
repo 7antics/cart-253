@@ -43,6 +43,37 @@ const fly = {
   speed: 3,
 };
 
+//Properties for the start button
+let startButton = {
+  x: 50,
+  y: 50,
+  img: null,
+  path: "null",
+};
+
+//Properties for the setting button
+let settingButton = {
+  x: 100,
+  y: 100,
+  img: null,
+  path: "nuth",
+};
+
+//Properties for the menu button
+let menuButton = {
+  x: 80,
+  y: 80,
+  img: null,
+  path: "null",
+};
+
+//Game Intro instructions
+let txt = {
+  fill: "#000000",
+  size: 50,
+  str: "",
+};
+
 let game = "menu";
 
 /**
@@ -50,6 +81,10 @@ let game = "menu";
  */
 function setup() {
   createCanvas(640, 480);
+
+  startButton.img = loadImage(startButton.path);
+  settingButton.img = loadImage(settingButton.path);
+  menuButton.img = loadImage(menuButton.path);
 
   // Give the fly its first random position
   resetFly();
