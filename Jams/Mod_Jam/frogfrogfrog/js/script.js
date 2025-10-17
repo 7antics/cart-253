@@ -43,6 +43,13 @@ const fly = {
   speed: 3,
 };
 
+const evilFly = {
+  x: 0,
+  y: 200, // Will be random
+  size: 20,
+  speed: 2,
+};
+
 //Properties for the start button
 let startButton = {
   x: 50,
@@ -112,8 +119,9 @@ function menuScreen() {
 }
 
 function playScreen() {
-  moveFly();
+  moveFlies();
   drawFly();
+  drawEvilFly();
   moveFrog();
   moveTongue();
   drawFrog();
@@ -130,13 +138,17 @@ function endScreen() {
  * Moves the fly according to its speed
  * Resets the fly if it gets all the way to the right
  */
-function moveFly() {
+function moveFlies() {
   // Move the fly
   fly.x += fly.speed;
   // Handle the fly going off the canvas
   if (fly.x > width) {
     resetFly();
   }
+
+  //Move the Evil fly
+  evilFly.x += evilFly.speed;
+  //If the evil fly goes off the canvas
 }
 
 /**
@@ -147,6 +159,17 @@ function drawFly() {
   noStroke();
   fill("#000000");
   ellipse(fly.x, fly.y, fly.size);
+  pop();
+}
+
+/**
+ * Draws the evil fly as a red circle
+ */
+function drawEvilFly() {
+  push();
+  noStroke();
+  fill("#ff0000d5");
+  ellipse(evilFly.x, evilFly.y, evilFly.size);
   pop();
 }
 
