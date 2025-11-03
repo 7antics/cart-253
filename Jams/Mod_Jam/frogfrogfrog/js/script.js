@@ -55,7 +55,7 @@ let startButton = {
   x: 50,
   y: 50,
   img: null,
-  path: "null",
+  path: "frogfrogfrogassetsimages/test.png",
 };
 
 //Properties for the setting button
@@ -82,6 +82,9 @@ let txt = {
 };
 
 let game = "menu";
+let showStart = false;
+let showSetting = false;
+let menuSetting = false;
 
 /**
  * Creates the canvas and initializes the fly
@@ -99,7 +102,6 @@ function setup() {
 
 function draw() {
   background("#87ceeb");
-
   //Change to different screen/game states
   game();
   if ((game = "menu")) {
@@ -111,7 +113,10 @@ function draw() {
   }
 }
 
+console.log(startButton.img);
 function menuScreen() {
+  image(startButton.img, startButton.x, startButton.y, 10, 10);
+
   //Make menu start button which brings player to playScreen mode/game="play";
   //Add music and sound effects
   //Make menu button, volume? Sfx volume?
