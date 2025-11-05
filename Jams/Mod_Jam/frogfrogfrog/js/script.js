@@ -54,37 +54,59 @@ const evilFly = {
 let startButton = {
   x: 50,
   y: 50,
+  w: 20,
+  h: 20,
   img: null,
-  path: "frogfrogfrogassetsimages/test.png",
+  path: "assets/images/test.png",
 };
 
 //Properties for the setting button
 let settingButton = {
   x: 100,
   y: 100,
+  w: 20,
+  h: 20,
   img: null,
-  path: "nuth",
+  path: "assets/images/test.png",
 };
 
 //Properties for the menu button
 let menuButton = {
   x: 80,
   y: 80,
+  w: 20,
+  h: 20,
   img: null,
-  path: "null",
+  path: "assets/images/test.png",
 };
 
 //Game Intro instructions
 let txt = {
   fill: "#000000",
-  size: 50,
+  size: 15,
   str: "",
+  info: {
+    infoOne:
+      "Starving! Famished! Mr.Frog is in dire need of food! Help him get those delicious flies!",
+    infoTwo:
+      "But be careful, there are some flies that cause weird side affects!",
+    infoThree:
+      "Mr.Frog will time his tongue to your clicks, so precision is important!",
+    infoFour: "Press ANY KEY to Skip",
+  },
 };
 
 let game = "menu";
 let showStart = false;
 let showSetting = false;
 let menuSetting = false;
+
+let clickTime = 0; // Start time of the mouse click
+let clickDelay = 2000; // 2 second delay for the mouse click
+let infoTime = 18000; //Time duration for the instruction game state
+
+let evilflies = [];
+let numEvilFlies = 2; // number of the evil flies on screen
 
 /**
  * Creates the canvas and initializes the fly
@@ -98,29 +120,39 @@ function setup() {
 
   // Give the fly its first random position
   resetFly();
+  resetEvil();
 }
 
 function draw() {
   background("#87ceeb");
+
   //Change to different screen/game states
-  game();
-  if ((game = "menu")) {
-    menuScreen;
-  } else if ((game = "play")) {
-    playScreen;
-  } else if ((game = "end")) {
-    endScreen;
+  if (game === "menu") {
+    menuScreen();
+  } else if (game === "instructions") {
+    infoScreen();
+    if (millis() - clickTime > infoTime || keyIsPressed) {
+      game = "play"; //Goes to play state after 18 seconds
+    }
+  } else if (game === "play") {
+    playScreen();
+  } else if (game === "end") {
+    endScreen();
   }
 }
 
-console.log(startButton.img);
 function menuScreen() {
-  image(startButton.img, startButton.x, startButton.y, 10, 10);
+  drawButtons();
+  drawMenuFly();
+  drawMenuFly();
 
-  //Make menu start button which brings player to playScreen mode/game="play";
   //Add music and sound effects
-  //Make menu button, volume? Sfx volume?
+  //Make setting button, volume? Sfx volume?
   //Add instructions/description scene before game starts
+}
+
+function infoScreen() {
+  drawText();
 }
 
 function playScreen() {
@@ -139,10 +171,110 @@ function endScreen() {
   //Add the run time for the game play
 }
 
+function clickButtons() {
+  //When the mouse hovers over the start button
+  let hoverStart =
+    mouseX > startButton.x &&
+    mouseX < startButton.x + startButton.w &&
+    mouseY > startButton.y &&
+    mouseY < startButton.y + startButton.h;
+
+  //When the mouse hovers over the setting button
+  let hoverSetting =
+    mouseX > settingButton.x &&
+    mouseX < settingButton.x + settingButton.w &&
+    mouseY > settingButton.y &&
+    mouseY < settingButton.y + settingButton.h;
+
+  //When the mouse hovers over the menu button
+  let hoverMenu =
+    mouseX > menuButton.x &&
+    mouseX < menuButton.x + menuButton.w &&
+    mouseY > menuButton.y &&
+    mouseY < menuButton.y + menuButton.h;
+
+  //Clicking the start button
+  if (hoverStart && mouseIsPressed && millis() - clickTime > clickDelay) {
+    game = "instructions"; //Turns to infoScreen/next game state
+    clickTime = millis(); //Changes the variable to when clicked last
+  }
+
+  if (hoverSetting && mouseIsPressed) {
+    game = "null"; //Turns to
+    clickTime = millis(); //Changes the variable to when clicked last
+  }
+  //Clicking the menu button
+  if (hoverMenu && mouseIsPressed) {
+    game = "null"; //Turns to
+    clickTime = millis(); //Changes the variable to when clicked last
+  }
+}
+
+function drawButtons() {
+  image(
+    startButton.img,
+    startButton.x,
+    startButton.y,
+    startButton.w,
+    startButton.h
+  );
+
+  image(
+    settingButton.img,
+    settingButton.x,
+    settingButton.y,
+    settingButton.w,
+    settingButton.h
+  );
+
+  // image(menuButton.img, menuButton.x, menuButton.y, menuButton.w, menuButton.h);
+}
+function drawMenuFrog() {}
+
+function drawMenuFly() {}
+
+/**
+ * Draw/Format the text for the instructions/information game state
+ */
+function drawText() {
+  push();
+  fill(txt.fill);
+  textAlign(CENTER, CENTER);
+  textSize(txt.size);
+  textStyle(BOLD);
+  text(txt.info.infoOne, width / 2, 220);
+  pop();
+
+  push();
+  fill(txt.fill);
+  textAlign(CENTER, CENTER);
+  textSize(txt.size);
+  textStyle(BOLD);
+  text(txt.info.infoTwo, width / 2, 240);
+  pop();
+
+  push();
+  fill(txt.fill);
+  textAlign(CENTER, CENTER);
+  textSize(txt.size);
+  textStyle(BOLD);
+  text(txt.info.infoThree, width / 2, 260);
+  pop();
+
+  push();
+  fill(txt.fill);
+  textAlign(CENTER, CENTER);
+  textSize(txt.size);
+  textStyle(BOLD);
+  text(txt.info.infoFour, width / 2, 400);
+  pop();
+}
+
 /**
  * Moves the fly according to its speed
  * Resets the fly if it gets all the way to the right
  */
+
 function moveFlies() {
   // Move the fly
   fly.x += fly.speed;
@@ -154,6 +286,9 @@ function moveFlies() {
   //Move the Evil fly
   evilFly.x += evilFly.speed;
   //If the evil fly goes off the canvas
+  if (evilFly.x > width) {
+    resetEvil();
+  }
 }
 
 /**
@@ -179,11 +314,19 @@ function drawEvilFly() {
 }
 
 /**
- * Resets the fly to the left with a random y
+ * Resets the flies to the left with a random y
  */
 function resetFly() {
   fly.x = 0;
   fly.y = random(0, 300);
+}
+
+/**
+ * Resets the Evil flies to the left with a random y
+ */
+function resetEvil() {
+  evilFly.x = 0;
+  evilFly.y = random(0, 300);
 }
 
 /**
@@ -261,6 +404,18 @@ function checkTongueFlyOverlap() {
     // Bring back the tongue
     frog.tongue.state = "inbound";
   }
+
+  // Get distance from tongue to Evil fly
+  const evilD = dist(frog.tongue.x, frog.tongue.y, evilFly.x, evilFly.y);
+  // Check if it's an overlap
+  const eatenEvil = evilD < frog.tongue.size / 2 + evilFly.size / 2;
+  if (eatenEvil) {
+    frog.body.x = mouseX;
+    // Reset the Evil fly
+    resetEvil();
+    // Bring back the tongue
+    frog.tongue.state = "inbound";
+  }
 }
 
 /**
@@ -269,5 +424,8 @@ function checkTongueFlyOverlap() {
 function mousePressed() {
   if (frog.tongue.state === "idle") {
     frog.tongue.state = "outbound";
+  }
+  if (game === "menu") {
+    clickButtons();
   }
 }
