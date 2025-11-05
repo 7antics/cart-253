@@ -22,6 +22,7 @@ const frog = {
     x: 320,
     y: 520,
     size: 150,
+    delay: false,
   },
   // The frog's tongue has a position, size, speed, and state
   tongue: {
@@ -333,6 +334,7 @@ function resetEvil() {
  * Moves the frog to the mouse position on x
  */
 function moveFrog() {
+  if (frog.body.delay) return;
   frog.body.x = mouseX;
 }
 
@@ -391,6 +393,14 @@ function drawFrog() {
 }
 
 /**
+ * Have a delay effect from eating the Evil Fly
+ */
+function frogDelay() {
+  frog.body.delay = true;
+  setTimeout(() => (frog.body.delay = false), 1000); // 1 second freeze
+}
+
+/**
  * Handles the tongue overlapping the fly
  */
 function checkTongueFlyOverlap() {
@@ -410,11 +420,9 @@ function checkTongueFlyOverlap() {
   // Check if it's an overlap
   const eatenEvil = evilD < frog.tongue.size / 2 + evilFly.size / 2;
   if (eatenEvil) {
-    frog.body.x = mouseX;
-    // Reset the Evil fly
-    resetEvil();
-    // Bring back the tongue
-    frog.tongue.state = "inbound";
+    frogDelay(); // Timed delay of the frog body
+    resetEvil(); // Reset the Evil fly
+    frog.tongue.state = "inbound"; // Bring back the tongue
   }
 }
 
