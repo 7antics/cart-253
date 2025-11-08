@@ -1,13 +1,14 @@
 /**
- * Frogfrogfrog
- * Pippin Barr
+ * Flying Food
+ * Pippin Barr & Anna Tsirbas
  *
- * A game of catching flies with your frog-tongue
+ * A game of helping catch flies for Mr.Frog, by timing his tongue to your clicks to catch flies before he starves (the timer goes out)
  *
  * Instructions:
  * - Move the frog with your mouse
  * - Click to launch the tongue
- * - Catch flies
+ * - Catch flies, avoid the bad ones
+ * - Catch 20 flies before the timer runs out
  *
  * Made with p5
  * https://p5js.org/
@@ -22,7 +23,8 @@ const frog = {
     x: 320,
     y: 520,
     size: 150,
-    delay: false,
+    delay: false, // For the freeze effect
+    snapped: true, // To Snap back to the mouse after the freeze
   },
   // The frog's tongue has a position, size, speed, and state
   tongue: {
@@ -44,6 +46,7 @@ const fly = {
   speed: 3,
 };
 
+//Properties for the Evil button
 const evilFly = {
   x: 0,
   y: 200, // Will be random
@@ -51,14 +54,27 @@ const evilFly = {
   speed: 2,
 };
 
+//Properties for the Gross Flies
+const grossFly = {
+  x: 0,
+  y: 200, // Will be random
+  size: 20,
+  speed: 3,
+};
+
+let menuImage = {
+  img: null,
+  path: "assets/images/menuScreen.jpg",
+};
+
 //Properties for the start button
 let startButton = {
-  x: 50,
-  y: 50,
-  w: 20,
-  h: 20,
+  x: 300,
+  y: 150,
+  w: 250,
+  h: 250,
   img: null,
-  path: "assets/images/test.png",
+  path: "assets/images/lilypad.png",
 };
 
 //Properties for the setting button
@@ -94,39 +110,76 @@ let txt = {
     infoThree:
       "Mr.Frog will time his tongue to your clicks, so precision is important!",
     infoFour: "Press ANY KEY to Skip",
+    endtxt: "Game Over!",
   },
 };
 
+let moreTxt = {
+  fill: "#ffffff",
+  size: 15,
+  str: "",
+  moretxt: {
+    txt: "START",
+  },
+};
+
+let scoreTxt = {
+  fill: "#ffffff",
+  size: 15,
+};
+
+let bgMusic = {
+  music: null,
+  path: "assets/sounds/backgroundMusic.mp3",
+  isPlaying: true,
+};
+
 let game = "menu";
-let showStart = false;
-let showSetting = false;
-let menuSetting = false;
+let score = 0; //Start number of Score
 
 let clickTime = 0; // Start time of the mouse click
 let clickDelay = 2000; // 2 second delay for the mouse click
 let infoTime = 18000; //Time duration for the instruction game state
 
+let startTime = 0; //for Timer
+let totalTime = 40; // total time for timer
+let remaining;
+
 let evilflies = [];
 let numEvilFlies = 2; // number of the evil flies on screen
+
+let startOfLerp = 0;
+let lerpTime = 1000; //total time of lerp
 
 /**
  * Creates the canvas and initializes the fly
  */
-function setup() {
-  createCanvas(640, 480);
 
+function preload() {
+  bgMusic.music = loadSound(bgMusic.path);
+  menuImage.img = loadImage(menuImage.path);
   startButton.img = loadImage(startButton.path);
   settingButton.img = loadImage(settingButton.path);
   menuButton.img = loadImage(menuButton.path);
+}
+
+function setup() {
+  createCanvas(640, 480);
+  userStartAudio(); //for music to work in browser
+  bgMusic.music.loop();
 
   // Give the fly its first random position
   resetFly();
   resetEvil();
+  resetGross();
+
+  if (!bgMusic.music.isPlaying()) {
+    bgMusic.music.loop();
+  }
 }
 
 function draw() {
-  background("#87ceeb");
-
+  background("87CEEB");
   //Change to different screen/game states
   if (game === "menu") {
     menuScreen();
@@ -143,30 +196,66 @@ function draw() {
 }
 
 function menuScreen() {
+  background(menuImage.img);
   drawButtons();
-  drawMenuFly();
   drawMenuFly();
 
   //Add music and sound effects
   //Make setting button, volume? Sfx volume?
-  //Add instructions/description scene before game starts
 }
 
 function infoScreen() {
+  //Background
+  push();
+  fill("#87CEEB");
+  noStroke();
+  rect(0, 0, 640, 640);
+  pop();
+
   drawText();
 }
 
 function playScreen() {
+  //Background
+  push();
+  fill("#87CEEB");
+  noStroke();
+  rect(0, 0, 640, 640);
+  pop();
+
+  if (startTime === 0) {
+    startTime = millis();
+  }
+
+  // // Update remaining time
+  let elapsed = (millis() - startTime) / 1000;
+  remaining = max(0, totalTime - int(elapsed));
+
+  if (remaining === 0 || score >= 20) {
+    game = "end";
+  }
+
+  //timer();
   moveFlies();
   drawFly();
   drawEvilFly();
+  drawGrossFly();
   moveFrog();
   moveTongue();
   drawFrog();
   checkTongueFlyOverlap();
+  drawScore();
+  //drawTimer();
 }
 
 function endScreen() {
+  //Background
+  push();
+  fill("#87CEEB");
+  noStroke();
+  rect(0, 0, 640, 640);
+  pop();
+
   //Add score result
   //Add restart button and menu button
   //Add the run time for the game play
@@ -211,6 +300,9 @@ function clickButtons() {
   }
 }
 
+/**
+ * Draw the Start, Setting and Menu buttons
+ */
 function drawButtons() {
   image(
     startButton.img,
@@ -219,20 +311,52 @@ function drawButtons() {
     startButton.w,
     startButton.h
   );
+  push();
+  fill(moreTxt.fill);
+  textAlign(CENTER, CENTER);
+  textSize(moreTxt.size);
+  textStyle(BOLD);
+  text(moreTxt.moretxt.txt, 425, 310);
+  pop();
 
-  image(
-    settingButton.img,
-    settingButton.x,
-    settingButton.y,
-    settingButton.w,
-    settingButton.h
-  );
+  // image(
+  //   settingButton.img,
+  //   settingButton.x,
+  //   settingButton.y,
+  //   settingButton.w,
+  //   settingButton.h
+  // );
 
   // image(menuButton.img, menuButton.x, menuButton.y, menuButton.w, menuButton.h);
 }
+
 function drawMenuFrog() {}
 
-function drawMenuFly() {}
+/**
+ * Draw/Format the fly for the Menu game state
+ */
+function drawMenuFly() {
+  //Wing 1
+  push();
+  noStroke();
+  fill("#e4fdfbc1");
+  ellipse(395, 245, fly.size - 2);
+  pop();
+
+  //Fly Body
+  push();
+  noStroke();
+  fill("#000000");
+  ellipse(400, 250, fly.size);
+  pop();
+
+  //Wing 2
+  push();
+  noStroke();
+  fill("#e4fdfbc1");
+  ellipse(393, 250, fly.size - 2);
+  pop();
+}
 
 /**
  * Draw/Format the text for the instructions/information game state
@@ -272,6 +396,28 @@ function drawText() {
 }
 
 /**
+ * Draw score for game state
+ */
+function drawScore() {
+  push();
+  fill(scoreTxt.fill);
+  textSize(scoreTxt.size);
+  textStyle(BOLD);
+  text(score + "/20", 600, 220);
+  pop();
+}
+
+function drawTimer() {
+  push();
+  fill("#ffffff");
+  textSize(15);
+  textStyle(BOLD);
+  textAlign(RIGHT, TOP);
+  text(remaining + "s", 600, 50);
+  pop();
+}
+
+/**
  * Moves the fly according to its speed
  * Resets the fly if it gets all the way to the right
  */
@@ -290,16 +436,38 @@ function moveFlies() {
   if (evilFly.x > width) {
     resetEvil();
   }
+
+  //Move the Gross fly
+  grossFly.x += grossFly.speed;
+  //If the Gross fly goes off the canvas
+  if (grossFly.x > width) {
+    resetGross();
+  }
 }
 
 /**
  * Draws the fly as a black circle
  */
 function drawFly() {
+  //Wing 1
+  push();
+  noStroke();
+  fill("#e4fdfbc1");
+  ellipse(fly.x - 5, fly.y - 5, fly.size - 2);
+  pop();
+
+  //Fly
   push();
   noStroke();
   fill("#000000");
   ellipse(fly.x, fly.y, fly.size);
+  pop();
+
+  //Wing 2
+  push();
+  noStroke();
+  fill("#e4fdfbc1");
+  ellipse(fly.x - 7, fly.y, fly.size - 2);
   pop();
 }
 
@@ -307,15 +475,55 @@ function drawFly() {
  * Draws the evil fly as a red circle
  */
 function drawEvilFly() {
+  //Wing 1
+  push();
+  noStroke();
+  fill("#e4fdfbc1");
+  ellipse(evilFly.x - 5, evilFly.y - 5, evilFly.size - 2);
+  pop();
+
   push();
   noStroke();
   fill("#ff0000d5");
   ellipse(evilFly.x, evilFly.y, evilFly.size);
   pop();
+
+  //Wing 2
+  push();
+  noStroke();
+  fill("#e4fdfbc1");
+  ellipse(evilFly.x - 10, evilFly.y, evilFly.size - 2);
+  pop();
 }
 
 /**
- * Resets the flies to the left with a random y
+ * Draws the Gross fly as a red circle
+ */
+function drawGrossFly() {
+  //Wing 1
+  push();
+  noStroke();
+  fill("#e4fdfbc1");
+  ellipse(grossFly.x - 5, grossFly.y - 5, grossFly.size - 2);
+  pop();
+
+  //Fly
+  push();
+  noStroke();
+  fill("#c300ffd5");
+  ellipse(grossFly.x, grossFly.y, grossFly.size);
+  pop();
+
+  //Wing 2
+  push();
+  noStroke();
+  fill("#e4fdfbc1");
+  ellipse(grossFly.x - 10, grossFly.y, grossFly.size - 2);
+  pop();
+}
+
+/**
+ * Resets the Flies to the left with a random y
  */
 function resetFly() {
   fly.x = 0;
@@ -331,11 +539,36 @@ function resetEvil() {
 }
 
 /**
+ * Resets the Gross flies to the left with a random y
+ */
+function resetGross() {
+  grossFly.x = 0;
+  grossFly.y = random(0, 300);
+}
+
+/**
  * Moves the frog to the mouse position on x
  */
 function moveFrog() {
-  if (frog.body.delay) return;
-  frog.body.x = mouseX;
+  if (frog.body.delay) return; // Stop movement if frozen
+
+  // If frog isn't snapped yet, start lerping
+  if (frog.body.snapped === false) {
+    // If just starting the lerp, record start time
+    if (startOfLerp === 0) {
+      startOfLerp = millis();
+    }
+    frog.body.x = lerp(frog.body.x, mouseX, 0.03); // Perform lerp
+
+    //If a second has passed, snap
+    if (millis() - startOfLerp > lerpTime) {
+      frog.body.snapped = true;
+      frog.body.x = mouseX;
+    }
+  } else {
+    frog.body.x = mouseX; // Once snapped, just follow the mouse directly
+    frog.body.snapped = true;
+  }
 }
 
 /**
@@ -398,6 +631,7 @@ function drawFrog() {
 function frogDelay() {
   frog.body.delay = true;
   setTimeout(() => (frog.body.delay = false), 1000); // 1 second freeze
+  // Smoothly move frog toward mouse
 }
 
 /**
@@ -411,6 +645,8 @@ function checkTongueFlyOverlap() {
   if (eaten) {
     // Reset the fly
     resetFly();
+    //Score goes up by one
+    score += 1;
     // Bring back the tongue
     frog.tongue.state = "inbound";
   }
@@ -422,6 +658,20 @@ function checkTongueFlyOverlap() {
   if (eatenEvil) {
     frogDelay(); // Timed delay of the frog body
     resetEvil(); // Reset the Evil fly
+    frog.body.snapped = false; //To start lerp effect
+    startOfLerp = 0; //To record the time of lerp & reset lerp effect
+    frog.tongue.state = "inbound"; // Bring back the tongue
+  }
+
+  // Get distance from tongue to Evil fly
+  const grossD = dist(frog.tongue.x, frog.tongue.y, grossFly.x, grossFly.y);
+  // Check if it's an overlap
+  const eatenGross = grossD < frog.tongue.size / 2 + grossFly.size / 2;
+  if (eatenGross) {
+    frogDelay(); // Timed delay of the frog body
+    resetGross(); // Reset the gross fly
+    frog.body.snapped = false; //To start lerp effect
+    startOfLerp = 0; //To record the time of lerp & reset lerp effect
     frog.tongue.state = "inbound"; // Bring back the tongue
   }
 }
