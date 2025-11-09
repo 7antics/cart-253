@@ -89,43 +89,39 @@ let settingButton = {
 
 //Properties for the menu button
 let menuButton = {
-  x: 80,
-  y: 80,
-  w: 20,
-  h: 20,
+  x: 320,
+  y: 400,
+  w: 250,
+  h: 250,
   img: null,
-  path: "assets/images/test.png",
+  path: "assets/images/lilypad.png",
 };
 
 //Game Intro instructions
 let txt = {
-  fill: "#000000",
+  fillone: "#000000",
+  filltwo: "#ffff",
   size: 15,
   str: "",
   info: {
     infoOne:
       "Starving! Famished! Mr.Frog is in dire need of food! Help him get those delicious flies!",
     infoTwo:
-      "But be careful, there are some flies that cause weird side affects!",
+      "But be careful, the Red and Purple flies cause weird side affects!",
     infoThree:
       "Mr.Frog will time his tongue to your clicks, so precision is important!",
     infoFour: "Press ANY KEY to Skip",
-    endtxt: "Game Over!",
-  },
-};
-
-let moreTxt = {
-  fill: "#ffffff",
-  size: 15,
-  str: "",
-  moretxt: {
     txt: "START",
+    endtxt: "Game Over!",
+    endtxt2: "Congratulations! Mr.Frog is stuffed!",
+    endtxt3: "My Condolences! Mr.Frog starved to death!",
+    goodend: "Winner Winner, Froggy Dinner!",
   },
 };
 
 let scoreTxt = {
-  fill: "#ffffff",
-  size: 15,
+  fill: "#ffff",
+  size: 50,
 };
 
 let bgMusic = {
@@ -197,8 +193,9 @@ function draw() {
 
 function menuScreen() {
   background(menuImage.img);
-  drawButtons();
+  drawStartButton();
   drawMenuFly();
+  clickButtons();
 
   //Add music and sound effects
   //Make setting button, volume? Sfx volume?
@@ -222,11 +219,12 @@ function playScreen() {
   noStroke();
   rect(0, 0, 640, 640);
   pop();
-
+  //Keep score from going below 0
+  score = max(0, score);
   if (startTime === 0) {
     startTime = millis();
   }
-
+  drawTimer();
   // // Update remaining time
   let elapsed = (millis() - startTime) / 1000;
   remaining = max(0, totalTime - int(elapsed));
@@ -235,7 +233,6 @@ function playScreen() {
     game = "end";
   }
 
-  //timer();
   moveFlies();
   drawFly();
   drawEvilFly();
@@ -245,20 +242,44 @@ function playScreen() {
   drawFrog();
   checkTongueFlyOverlap();
   drawScore();
-  //drawTimer();
 }
 
 function endScreen() {
-  //Background
+  // Background
   push();
   fill("#87CEEB");
   noStroke();
-  rect(0, 0, 640, 640);
+  rect(0, 0, 640, 480);
   pop();
 
-  //Add score result
-  //Add restart button and menu button
-  //Add the run time for the game play
+  // Time
+  push();
+  fill(scoreTxt.fill);
+  textSize(20);
+  textStyle(BOLD);
+  textAlign(CENTER, CENTER);
+  text("Time Left: " + remaining + "s", width / 2, 330);
+  pop();
+
+  // Score
+  push();
+  fill(scoreTxt.fill);
+  textSize(20);
+  textStyle(BOLD);
+  textAlign(CENTER, CENTER);
+  text("Score: " + score + "/20", width / 2, 370);
+  pop();
+
+  // End message
+  if (score >= 20) {
+    goodendTxt();
+  } else {
+    badendTxt();
+  }
+
+  // clickButtons();
+  // // Menu button
+  // drawMenuButton();
 }
 
 function clickButtons() {
@@ -295,7 +316,7 @@ function clickButtons() {
   }
   //Clicking the menu button
   if (hoverMenu && mouseIsPressed) {
-    game = "null"; //Turns to
+    game = "menu"; //Turns to
     clickTime = millis(); //Changes the variable to when clicked last
   }
 }
@@ -303,7 +324,7 @@ function clickButtons() {
 /**
  * Draw the Start, Setting and Menu buttons
  */
-function drawButtons() {
+function drawStartButton() {
   image(
     startButton.img,
     startButton.x,
@@ -312,25 +333,62 @@ function drawButtons() {
     startButton.h
   );
   push();
-  fill(moreTxt.fill);
+  fill(txt.filltwo);
   textAlign(CENTER, CENTER);
-  textSize(moreTxt.size);
+  textSize(txt.size);
   textStyle(BOLD);
-  text(moreTxt.moretxt.txt, 425, 310);
+  text(
+    txt.info.txt,
+    startButton.x + startButton.w / 2,
+    startButton.y + 35 + startButton.h / 2
+  );
   pop();
-
-  // image(
-  //   settingButton.img,
-  //   settingButton.x,
-  //   settingButton.y,
-  //   settingButton.w,
-  //   settingButton.h
-  // );
-
-  // image(menuButton.img, menuButton.x, menuButton.y, menuButton.w, menuButton.h);
 }
+/**
+ * Draw the Setting buttons NOT DONE!!! :(
+ */
+// function drawSettingButton() {
+//   image(
+//     settingButton.img,
+//     settingButton.x,
+//     settingButton.y,
+//     settingButton.w,
+//     settingButton.h
+//   );
 
-function drawMenuFrog() {}
+//   push();
+//   fill(null);
+//   textAlign(CENTER, CENTER);
+//   textSize(null);
+//   textStyle(BOLD);
+//   text(
+//     null,
+//     settingButton.x + settingButton.w / 2,
+//     settingButton.y + settingButton.h / 2
+//   );
+//   pop();
+// }
+
+/**
+ * Draw the Menu buttons NOT DONE!! :(
+ */
+// function drawMenuButton() {
+//   image(menuButton.img, menuButton.x, menuButton.y, menuButton.w, menuButton.h);
+
+//   push();
+//   fill("#ffffff");
+//   textSize(txt.size);
+//   textStyle(BOLD);
+//   textAlign(CENTER, CENTER);
+//   text(
+//     "RESTART",
+//     menuButton.x + menuButton.w / 2,
+//     menuButton.y + 35 + menuButton.h / 2
+//   );
+//   pop();
+// }
+
+// function drawMenuFrog() {}
 
 /**
  * Draw/Format the fly for the Menu game state
@@ -363,7 +421,7 @@ function drawMenuFly() {
  */
 function drawText() {
   push();
-  fill(txt.fill);
+  fill(txt.fillone);
   textAlign(CENTER, CENTER);
   textSize(txt.size);
   textStyle(BOLD);
@@ -371,7 +429,7 @@ function drawText() {
   pop();
 
   push();
-  fill(txt.fill);
+  fill(txt.fillone);
   textAlign(CENTER, CENTER);
   textSize(txt.size);
   textStyle(BOLD);
@@ -379,7 +437,7 @@ function drawText() {
   pop();
 
   push();
-  fill(txt.fill);
+  fill(txt.fillone);
   textAlign(CENTER, CENTER);
   textSize(txt.size);
   textStyle(BOLD);
@@ -387,7 +445,7 @@ function drawText() {
   pop();
 
   push();
-  fill(txt.fill);
+  fill(txt.fillone);
   textAlign(CENTER, CENTER);
   textSize(txt.size);
   textStyle(BOLD);
@@ -396,6 +454,47 @@ function drawText() {
 }
 
 /**
+ * Draw the text for the good end game state
+ */
+function goodendTxt() {
+  push();
+  fill(txt.filltwo);
+  textAlign(CENTER, CENTER);
+  textSize(40);
+  textStyle(BOLD);
+  text(txt.info.goodend, width / 2, 200);
+  pop();
+
+  push();
+  fill(txt.filltwo);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  textStyle(BOLD);
+  text(txt.info.endtxt2, width / 2, 240);
+  pop();
+}
+
+/**
+ * Draw the text for the bad end game state
+ */
+function badendTxt() {
+  push();
+  fill(txt.filltwo);
+  textAlign(CENTER, CENTER);
+  textSize(40);
+  textStyle(BOLD);
+  text(txt.info.endtxt, width / 2, 200);
+  pop();
+
+  push();
+  fill(txt.filltwo);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  textStyle(BOLD);
+  text(txt.info.endtxt3, width / 2, 240);
+  pop();
+}
+/**
  * Draw score for game state
  */
 function drawScore() {
@@ -403,17 +502,19 @@ function drawScore() {
   fill(scoreTxt.fill);
   textSize(scoreTxt.size);
   textStyle(BOLD);
-  text(score + "/20", 600, 220);
+  text(score + "/20", 50, 100);
   pop();
 }
 
+/**
+ * Draw timer for game state
+ */
 function drawTimer() {
   push();
   fill("#ffffff");
-  textSize(15);
+  textSize(50);
   textStyle(BOLD);
-  textAlign(RIGHT, TOP);
-  text(remaining + "s", 600, 50);
+  text(remaining + "s", 500, 100);
   pop();
 }
 
@@ -670,6 +771,7 @@ function checkTongueFlyOverlap() {
   if (eatenGross) {
     frogDelay(); // Timed delay of the frog body
     resetGross(); // Reset the gross fly
+    score -= 1; //Score goes down by one
     frog.body.snapped = false; //To start lerp effect
     startOfLerp = 0; //To record the time of lerp & reset lerp effect
     frog.tongue.state = "inbound"; // Bring back the tongue
@@ -682,8 +784,5 @@ function checkTongueFlyOverlap() {
 function mousePressed() {
   if (frog.tongue.state === "idle") {
     frog.tongue.state = "outbound";
-  }
-  if (game === "menu") {
-    clickButtons();
   }
 }
