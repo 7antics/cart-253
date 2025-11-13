@@ -1,7 +1,7 @@
 Naming My Car!
 Anna Tsirbas
 
-[View this project online](https://7antics.github.io/cart-253/Challenges/11_12_Data_Challenge/datachallenge/template)
+[View this project online](https://7antics.github.io/cart-253/Challenges/11_12_Data_Challenge/datachallenge/template/)
 
 ## Description
 
