@@ -10,5 +10,7 @@
 //Making Dice Properties
 const die = [1, 2, 3, 4, 5, 6];
 
-function originalMode() {}
+/**
+ * Mouse click in original mode game state
+ */
 function ogMousePressed() {}

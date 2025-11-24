@@ -8,12 +8,31 @@
 "use strict";
 
 //Player Properties
-const playerOne = {
-  size: 15,
+let pOne = {
+  x: undefined,
+  y: undefined,
+  w: 15,
+  h: 15,
 };
 
-const playerTwo = {
+let pTwo = {
+  x: undefined,
+  y: undefined,
+  w: 15,
+  h: 15,
+};
+
+//Menu Text
+let txt = {
+  fillone: "#000000",
+  filltwo: "#ffff",
   size: 15,
+  str: "",
+  txt: {
+    txtOne: "Snakes and Ladders",
+    txtTwo: "Serpents and Summits",
+    txtThree: "Adders and Altitudes",
+  },
 };
 
 //Background Music
@@ -47,7 +66,7 @@ function preload() {}
  * Set up the unchanging properties: the menu, the board, the players
  */
 function setup() {
-  createCanvas(550, 550);
+  createCanvas(600, 600);
   loadScript();
 
   //Call on other Game Mode scripts
@@ -65,7 +84,6 @@ function setup() {
  */
 function draw() {
   background(0);
-  drawBoard();
   console.log(drawCell);
 
   //Choose Game mode
@@ -113,9 +131,57 @@ function mousePressed() {
 }
 
 /**
- * Draw multiple cells in columns and rows
+ * Menu Screen
  */
-function menuDraw() {}
+function menuDraw() {
+  drawMenutxt();
+}
+
+/** Menu Txt
+ */
+function drawMenutxt() {
+  push();
+  fill("white");
+  textAlign(CENTER, CENTER);
+  textSize(25);
+  text(txt.txt.txtOne, width / 2, 200);
+  pop();
+
+  push();
+  fill("white");
+  textAlign(CENTER, CENTER);
+  textSize(25);
+  text(txt.txt.txtTwo, width / 2, 300);
+  pop();
+
+  push();
+  fill("white");
+  textAlign(CENTER, CENTER);
+  textSize(25);
+  text(txt.txt.txtThree, width / 2, 400);
+  pop();
+}
+
+/**
+ * Orginal Snakes and Ladders Game
+ */
+function originalMode() {
+  drawBoard();
+}
+
+/**
+ * Dnd Variation of S&L game; Serpents and Summits
+ */
+function dndMode() {
+  drawBoard();
+}
+
+/**
+ * Meta Game Mode of S&L game; Adders and Altitudes
+ */
+function metaMode() {
+  drawBoard();
+}
 
 /**
  * Draw multiple cells in columns and rows
@@ -133,6 +199,8 @@ function drawBoard() {
 function drawCell(a, b) {
   //Draw the cell square
   push();
+  stroke("pink");
+  strokeWeight(3);
   fill("White");
   rectMode(CORNER);
   rect(offsetX + a * CELL_SIZE, offsetY + b * CELL_SIZE, CELL_SIZE, CELL_SIZE);
@@ -169,7 +237,7 @@ function drawCell(a, b) {
 function drawPlayerOne() {
   push();
   fill("Red");
-  ellipse(x, y);
+  ellipse(pOne.x, pOne.y, pOne.w, pOne.h);
   pop();
 }
 
@@ -179,7 +247,7 @@ function drawPlayerOne() {
 function drawPlayerTwo() {
   push();
   fill("Blue");
-  ellipse(x, y);
+  ellipse(pTwo.x, pTwo.y, pTwo.w, pTwo.h);
   pop();
 }
 /**
