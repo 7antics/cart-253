@@ -25,13 +25,23 @@ let pTwo = {
 //Menu Text
 let txt = {
   fillone: "#000000",
-  filltwo: "#ffff",
+  filltwo: "#D3D3D3",
+  fillthree: "#ffffff",
   size: 15,
   str: "",
   txt: {
     txtOne: "Snakes and Ladders",
     txtTwo: "Serpents and Summits",
     txtThree: "Adders and Altitudes",
+  },
+};
+
+let gridFill = {
+  str: "#ffffff",
+  fill: {
+    snl: "#ffbedcff",
+    sns: "#37bb7bff",
+    ana: "#5c56cfff",
   },
 };
 
@@ -140,22 +150,26 @@ function menuDraw() {
 /** Menu Txt
  */
 function drawMenutxt() {
+  let hoverOG = dist(mouseX, mouseY, width / 2, 200) < 40;
+  let hoverDnd = dist(mouseX, mouseY, width / 2, 300) < 40;
+  let hoverMeta = dist(mouseX, mouseY, width / 2, 400) < 40;
+
   push();
-  fill("white");
+  fill(hoverOG ? txt.fillthree : txt.filltwo);
   textAlign(CENTER, CENTER);
   textSize(25);
   text(txt.txt.txtOne, width / 2, 200);
   pop();
 
   push();
-  fill("white");
+  fill(hoverDnd ? txt.fillthree : txt.filltwo);
   textAlign(CENTER, CENTER);
   textSize(25);
   text(txt.txt.txtTwo, width / 2, 300);
   pop();
 
   push();
-  fill("white");
+  fill(hoverMeta ? txt.fillthree : txt.filltwo);
   textAlign(CENTER, CENTER);
   textSize(25);
   text(txt.txt.txtThree, width / 2, 400);
@@ -167,6 +181,8 @@ function drawMenutxt() {
  */
 function originalMode() {
   drawBoard();
+  drawMenuButton();
+  menuMousePressed();
 }
 
 /**
@@ -174,6 +190,8 @@ function originalMode() {
  */
 function dndMode() {
   drawBoard();
+  drawMenuButton();
+  menuMousePressed();
 }
 
 /**
@@ -181,6 +199,8 @@ function dndMode() {
  */
 function metaMode() {
   drawBoard();
+  drawMenuButton();
+  menuMousePressed();
 }
 
 /**
@@ -199,7 +219,7 @@ function drawBoard() {
 function drawCell(a, b) {
   //Draw the cell square
   push();
-  stroke("pink");
+  stroke(gridFill.str);
   strokeWeight(3);
   fill("White");
   rectMode(CORNER);
@@ -250,7 +270,45 @@ function drawPlayerTwo() {
   ellipse(pTwo.x, pTwo.y, pTwo.w, pTwo.h);
   pop();
 }
+
+function drawMenuButton() {
+  let hoverMenu = dist(mouseX, mouseY, 575, 25) < 20;
+
+  push();
+  stroke(hoverMenu ? "#ffffff" : "#D3D3D3");
+  strokeWeight(hoverMenu ? 10 : 7);
+  fill("Black");
+  ellipse(575, 25, 30, 30);
+  pop();
+}
+
 /**
  * Mouse click on menu
  */
-function menuMousePressed() {}
+function menuMousePressed() {
+  //Hover Original Mode
+  const dOG = dist(mouseX, mouseY, width / 2, 200);
+  //Hover Dnd Mode
+  const dDnd = dist(mouseX, mouseY, width / 2, 300);
+  //Hover Meta Mode
+  const dMeta = dist(mouseX, mouseY, width / 2, 400);
+  //Hover Menu Button
+  const dMenuButt = dist(mouseX, mouseY, 575, 25);
+
+  // Click radius threshold
+  const clickRadius = 100;
+
+  //When the mouse is hovering over the text, and is clicked then
+  if (mouseIsPressed && dOG < clickRadius) {
+    game = "original"; //change to original game mode
+    gridFill.str = gridFill.fill.snl; //set grid color based on mode
+  } else if (mouseIsPressed && dDnd < clickRadius) {
+    game = "dnd"; //change to dnd game mode
+    gridFill.str = gridFill.fill.sns; //set grid color based on mode
+  } else if (mouseIsPressed && dMeta < clickRadius) {
+    game = "meta"; //change to meta game mode
+    gridFill.str = gridFill.fill.ana; //set grid color base on mode
+  } else if (mouseIsPressed && dMenuButt < 20) {
+    game = "menu"; //change to menu screen
+  }
+}
