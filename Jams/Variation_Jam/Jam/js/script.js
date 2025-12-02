@@ -33,6 +33,8 @@ let txt = {
     txtOne: "Snakes and Ladders",
     txtTwo: "Serpents and Summits",
     txtThree: "Adders and Altitudes",
+    txtFour: "Player One",
+    txtFive: "Player Two",
   },
 };
 
@@ -113,6 +115,9 @@ function draw() {
   }
 }
 
+/**
+ * Load other script files into this script file
+ */
 function loadScript(path) {
   let script = document.createElement("script");
   script.src = path;
@@ -147,7 +152,37 @@ function menuDraw() {
   drawMenutxt();
 }
 
-/** Menu Txt
+/**
+ * Orginal Snakes and Ladders Game
+ */
+function originalMode() {
+  drawBoard();
+  drawMenuButton();
+  menuMousePressed();
+  drawPlayerTurnTxt();
+}
+
+/**
+ * Dnd Variation of S&L game; Serpents and Summits
+ */
+function dndMode() {
+  drawBoard();
+  drawMenuButton();
+  menuMousePressed();
+  drawPlayerTurnTxt();
+}
+
+/**
+ * Meta Game Mode of S&L game; Adders and Altitudes
+ */
+function metaMode() {
+  drawBoard();
+  drawMenuButton();
+  menuMousePressed();
+  drawPlayerTurnTxt();
+}
+
+/** Draw Menu Txt
  */
 function drawMenutxt() {
   let hoverOG = dist(mouseX, mouseY, width / 2, 200) < 40;
@@ -177,30 +212,17 @@ function drawMenutxt() {
 }
 
 /**
- * Orginal Snakes and Ladders Game
+ * Draw the menu button
  */
-function originalMode() {
-  drawBoard();
-  drawMenuButton();
-  menuMousePressed();
-}
+function drawMenuButton() {
+  let hoverMenu = dist(mouseX, mouseY, 575, 25) < 20;
 
-/**
- * Dnd Variation of S&L game; Serpents and Summits
- */
-function dndMode() {
-  drawBoard();
-  drawMenuButton();
-  menuMousePressed();
-}
-
-/**
- * Meta Game Mode of S&L game; Adders and Altitudes
- */
-function metaMode() {
-  drawBoard();
-  drawMenuButton();
-  menuMousePressed();
+  push();
+  stroke(hoverMenu ? "#ffffff" : "#D3D3D3");
+  strokeWeight(hoverMenu ? 10 : 7);
+  fill("Black");
+  ellipse(575, 25, 30, 30);
+  pop();
 }
 
 /**
@@ -213,6 +235,7 @@ function drawBoard() {
     }
   }
 }
+
 /**
  * Draw the individual cell and numbering
  */
@@ -271,14 +294,22 @@ function drawPlayerTwo() {
   pop();
 }
 
-function drawMenuButton() {
-  let hoverMenu = dist(mouseX, mouseY, 575, 25) < 20;
+/**
+ * Draw the player's turn text
+ */
+function drawPlayerTurnTxt() {
+  push();
+  fill(txt.fillthree);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  text(txt.txt.txtFour, width / 2, 25);
+  pop();
 
   push();
-  stroke(hoverMenu ? "#ffffff" : "#D3D3D3");
-  strokeWeight(hoverMenu ? 10 : 7);
-  fill("Black");
-  ellipse(575, 25, 30, 30);
+  fill(txt.fillthree);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  text(txt.txt.txtFive, width / 2, 25);
   pop();
 }
 
