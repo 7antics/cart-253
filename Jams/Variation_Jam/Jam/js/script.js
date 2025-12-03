@@ -8,18 +8,20 @@
 "use strict";
 
 //Player Properties
-let pOne = {
-  x: undefined,
-  y: undefined,
+let p1 = {
+  x: 290,
+  y: 570,
   w: 15,
   h: 15,
+  speed: 3,
 };
 
-let pTwo = {
-  x: undefined,
-  y: undefined,
+let p2 = {
+  x: 310,
+  y: 570,
   w: 15,
   h: 15,
+  speed: 3,
 };
 
 //Menu Text
@@ -70,6 +72,10 @@ let cellNumber;
 let a = 0;
 let b = 0;
 
+// Turn system
+let currentPlayer = 1; // 1 = Player One, 2 = Player Two
+
+//Game Mode
 let game = "menu";
 
 function preload() {}
@@ -79,12 +85,6 @@ function preload() {}
  */
 function setup() {
   createCanvas(600, 600);
-  loadScript();
-
-  //Call on other Game Mode scripts
-  loadScript("js/originalMode.js");
-  loadScript("js/dndMode.js");
-  loadScript("js/metaMode.js");
 
   //Center the grid in the middle of the canvas
   offsetX = (width - GRID_WIDTH) / 2;
@@ -116,19 +116,13 @@ function draw() {
 }
 
 /**
- * Load other script files into this script file
- */
-function loadScript(path) {
-  let script = document.createElement("script");
-  script.src = path;
-  script.type = "text/javascript";
-}
-
-/**
  * Listen for mouse pressed and call the function for it in the
  * current state
  */
 function mousePressed() {
+  // Always check if the menu button is pressed first
+  pressMenuButton();
+
   switch (game) {
     case "menu":
       menuMousePressed();
@@ -156,9 +150,7 @@ function menuDraw() {
  * Orginal Snakes and Ladders Game
  */
 function originalMode() {
-  drawBoard();
-  drawMenuButton();
-  menuMousePressed();
+  gameModeDraw();
   drawPlayerTurnTxt();
 }
 
@@ -166,9 +158,7 @@ function originalMode() {
  * Dnd Variation of S&L game; Serpents and Summits
  */
 function dndMode() {
-  drawBoard();
-  drawMenuButton();
-  menuMousePressed();
+  gameModeDraw();
   drawPlayerTurnTxt();
 }
 
@@ -176,10 +166,17 @@ function dndMode() {
  * Meta Game Mode of S&L game; Adders and Altitudes
  */
 function metaMode() {
+  gameModeDraw();
+  p1MetaMovement();
+  p2MetaMovement();
+  controlInstructions();
+}
+
+function gameModeDraw() {
   drawBoard();
   drawMenuButton();
-  menuMousePressed();
-  drawPlayerTurnTxt();
+  drawPlayerOne();
+  drawPlayerTwo();
 }
 
 /** Draw Menu Txt
@@ -280,7 +277,9 @@ function drawCell(a, b) {
 function drawPlayerOne() {
   push();
   fill("Red");
-  ellipse(pOne.x, pOne.y, pOne.w, pOne.h);
+  stroke(" #fe7c80ff");
+  strokeWeight(3);
+  ellipse(p1.x, p1.y, p1.w, p1.h);
   pop();
 }
 
@@ -290,7 +289,9 @@ function drawPlayerOne() {
 function drawPlayerTwo() {
   push();
   fill("Blue");
-  ellipse(pTwo.x, pTwo.y, pTwo.w, pTwo.h);
+  stroke("#98b3ffff");
+  strokeWeight(3);
+  ellipse(p2.x, p2.y, p2.w, p2.h);
   pop();
 }
 
@@ -302,14 +303,11 @@ function drawPlayerTurnTxt() {
   fill(txt.fillthree);
   textAlign(CENTER, CENTER);
   textSize(20);
-  text(txt.txt.txtFour, width / 2, 25);
-  pop();
-
-  push();
-  fill(txt.fillthree);
-  textAlign(CENTER, CENTER);
-  textSize(20);
-  text(txt.txt.txtFive, width / 2, 25);
+  if (currentPlayer === 1) {
+    text("Player One's Turn", width / 2, 25);
+  } else {
+    text("Player Two's Turn", width / 2, 25);
+  }
   pop();
 }
 
@@ -323,23 +321,28 @@ function menuMousePressed() {
   const dDnd = dist(mouseX, mouseY, width / 2, 300);
   //Hover Meta Mode
   const dMeta = dist(mouseX, mouseY, width / 2, 400);
-  //Hover Menu Button
-  const dMenuButt = dist(mouseX, mouseY, 575, 25);
 
   // Click radius threshold
   const clickRadius = 100;
 
   //When the mouse is hovering over the text, and is clicked then
-  if (mouseIsPressed && dOG < clickRadius) {
+  if (dOG < clickRadius) {
     game = "original"; //change to original game mode
     gridFill.str = gridFill.fill.snl; //set grid color based on mode
-  } else if (mouseIsPressed && dDnd < clickRadius) {
+  } else if (dDnd < clickRadius) {
     game = "dnd"; //change to dnd game mode
     gridFill.str = gridFill.fill.sns; //set grid color based on mode
-  } else if (mouseIsPressed && dMeta < clickRadius) {
+  } else if (dMeta < clickRadius) {
     game = "meta"; //change to meta game mode
     gridFill.str = gridFill.fill.ana; //set grid color base on mode
-  } else if (mouseIsPressed && dMenuButt < 20) {
+  }
+}
+
+function pressMenuButton() {
+  //Hover Menu Button
+  const dMenuButt = dist(mouseX, mouseY, 575, 25);
+
+  if (dMenuButt < 20) {
     game = "menu"; //change to menu screen
   }
 }
