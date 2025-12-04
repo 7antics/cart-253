@@ -179,6 +179,26 @@ function gameModeDraw() {
   drawPlayerTwo();
 }
 
+/**
+ * Player Control Instructions
+ */
+
+function controlInstructions() {
+  push();
+  fill("#fe7c80ff");
+  textAlign(CENTER, CENTER);
+  textSize(10);
+  text("Player One: AWSD Controls", 100, 570);
+  pop();
+
+  push();
+  fill("#98b3ffff");
+  textAlign(CENTER, CENTER);
+  textSize(10);
+  text("Player Two: Arrow Key Controls", 500, 570);
+  pop();
+}
+
 /** Draw Menu Txt
  */
 function drawMenutxt() {
@@ -277,7 +297,7 @@ function drawCell(a, b) {
 function drawPlayerOne() {
   push();
   fill("Red");
-  stroke(" #fe7c80ff");
+  stroke("#fe7c80ff");
   strokeWeight(3);
   ellipse(p1.x, p1.y, p1.w, p1.h);
   pop();
@@ -344,5 +364,36 @@ function pressMenuButton() {
 
   if (dMenuButt < 20) {
     game = "menu"; //change to menu screen
+  }
+}
+
+function p1MetaMovement() {
+  // Player 1 movement in Meta Mode
+  if (keyIsDown(87)) {
+    p1.y -= p1.speed;
+  } // W
+  if (keyIsDown(83)) {
+    p1.y += p1.speed;
+  } // S
+  if (keyIsDown(65)) {
+    p1.x -= p1.speed;
+  } // A
+  if (keyIsDown(68)) {
+    p1.x += p1.speed;
+  } // D
+}
+function p2MetaMovement() {
+  //Player 2 movement in Meta Mode
+  if (keyIsDown(UP_ARROW)) {
+    p2.y -= p2.speed;
+  }
+  if (keyIsDown(DOWN_ARROW)) {
+    p2.y += p2.speed;
+  }
+  if (keyIsDown(LEFT_ARROW)) {
+    p2.x -= p2.speed;
+  }
+  if (keyIsDown(RIGHT_ARROW)) {
+    p2.x += p2.speed;
   }
 }
