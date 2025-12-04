@@ -387,12 +387,10 @@ function getCellCoordinates(cell) {
   return { x, y };
 }
 
-function rollDice() {
-  rolling = true;
-}
-
 function drawDie() {
+  //Hover Mouse over Die
   let hoverDie = dist(mouseX, mouseY, die.x, die.y) < 20;
+
   push();
   fill("#ffffffff");
   rectMode(CENTER);
@@ -403,8 +401,21 @@ function drawDie() {
     rect(die.x, die.y, die.w + 3, die.h + 3);
   }
   pop();
+
+  push();
+  fill("#000000ff");
+  rectMode(CENTER);
+  noStroke();
+  if (!hoverDie) {
+    ellipse(die.x, die.y, 5, 5);
+  } else {
+    ellipse(die.x, die.y, 6, 6);
+  }
+  pop();
 }
-function pressDie() {
+function rollDie() {
+  //Array for the dice options
+  roll = [1, 2, 3, 4, 5, 6];
   //Hover Menu Button
   const dDie = dist(mouseX, mouseY, die.x, die.y);
 
