@@ -356,6 +356,11 @@ function menuMousePressed() {
     game = "meta"; //change to meta game mode
     gridFill.str = gridFill.fill.ana; //set grid color base on mode
   }
+  // RESET PLAYER POSITIONS HERE
+  p1.x = 290;
+  p1.y = 570;
+  p2.x = 310;
+  p2.y = 570;
 }
 
 function pressMenuButton() {
@@ -368,32 +373,43 @@ function pressMenuButton() {
 }
 
 function p1MetaMovement() {
-  // Player 1 movement in Meta Mode
-  if (keyIsDown(87)) {
-    p1.y -= p1.speed;
-  } // W
-  if (keyIsDown(83)) {
-    p1.y += p1.speed;
-  } // S
-  if (keyIsDown(65)) {
-    p1.x -= p1.speed;
-  } // A
-  if (keyIsDown(68)) {
-    p1.x += p1.speed;
-  } // D
+  let nextX = p1.x;
+  let nextY = p1.y;
+
+  if (keyIsDown(87)) nextY -= p1.speed; // W
+  if (keyIsDown(83)) nextY += p1.speed; // S
+  if (keyIsDown(65)) nextX -= p1.speed; // A
+  if (keyIsDown(68)) nextX += p1.speed; // D
+
+  // Check collision with player 2
+  let dx = nextX - p2.x;
+  let dy = nextY - p2.y;
+  let distance = sqrt(dx * dx + dy * dy);
+  let minDistance = (p1.w + p2.w) / 2;
+
+  if (distance >= minDistance) {
+    // only move if no collision
+    p1.x = nextX;
+    p1.y = nextY;
+  }
 }
 function p2MetaMovement() {
-  //Player 2 movement in Meta Mode
-  if (keyIsDown(UP_ARROW)) {
-    p2.y -= p2.speed;
-  }
-  if (keyIsDown(DOWN_ARROW)) {
-    p2.y += p2.speed;
-  }
-  if (keyIsDown(LEFT_ARROW)) {
-    p2.x -= p2.speed;
-  }
-  if (keyIsDown(RIGHT_ARROW)) {
-    p2.x += p2.speed;
+  let nextX = p2.x;
+  let nextY = p2.y;
+
+  if (keyIsDown(UP_ARROW)) nextY -= p2.speed;
+  if (keyIsDown(DOWN_ARROW)) nextY += p2.speed;
+  if (keyIsDown(LEFT_ARROW)) nextX -= p2.speed;
+  if (keyIsDown(RIGHT_ARROW)) nextX += p2.speed;
+
+  // Check collision with player 2
+  let dx = nextX - p1.x;
+  let dy = nextY - p1.y;
+  let distance = sqrt(dx * dx + dy * dy);
+  let minDistance = (p1.w + p2.w) / 2;
+
+  if (distance >= minDistance) {
+    p2.x = nextX;
+    p2.y = nextY;
   }
 }
