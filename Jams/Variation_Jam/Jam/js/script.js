@@ -29,6 +29,32 @@ let die = {
   y: 575,
   w: 20,
   h: 20,
+  resultX: 300,
+  resultY: 300,
+  roll1: {
+    image: null,
+    path: "assets/images/die1.png",
+  },
+  roll2: {
+    image: null,
+    path: "assets/images/die2.png",
+  },
+  roll3: {
+    image: null,
+    path: "assets/images/die3.png",
+  },
+  roll4: {
+    image: null,
+    path: "assets/images/die4.png",
+  },
+  roll5: {
+    image: null,
+    path: "assets/images/die5.png",
+  },
+  roll6: {
+    image: null,
+    path: "assets/images/die6.png",
+  },
 };
 
 //Menu Text
@@ -89,7 +115,14 @@ let currentPlayer = 1; // 1 = Player One, 2 = Player Two
 //Game Mode
 let game = "menu";
 
-function preload() {}
+function preload() {
+  die.roll1.image = loadImage(die.roll1.path);
+  die.roll2.image = loadImage(die.roll2.path);
+  die.roll3.image = loadImage(die.roll3.path);
+  die.roll4.image = loadImage(die.roll4.path);
+  die.roll5.image = loadImage(die.roll5.path);
+  die.roll6.image = loadImage(die.roll6.path);
+}
 
 /**
  * Set up the unchanging properties: the menu, the board, the players
@@ -415,12 +448,17 @@ function drawDie() {
 }
 function rollDie() {
   //Array for the dice options
-  roll = [1, 2, 3, 4, 5, 6];
-  //Hover Menu Button
-  const dDie = dist(mouseX, mouseY, die.x, die.y);
+  let rolls = [
+    die.roll1,
+    die.roll2,
+    die.roll3,
+    die.roll4,
+    die.roll5,
+    die.roll6,
+  ];
 
-  if (dDie < 20) {
-  }
+  //Randomise the array
+  let randomResult = shuffle(rolls);
 }
 
 /**
