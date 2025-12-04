@@ -10,7 +10,7 @@
 //Player Properties
 let p1 = {
   x: 290,
-  y: 570,
+  y: 575,
   w: 15,
   h: 15,
   speed: 3,
@@ -18,10 +18,17 @@ let p1 = {
 
 let p2 = {
   x: 310,
-  y: 570,
+  y: 575,
   w: 15,
   h: 15,
   speed: 3,
+};
+
+let die = {
+  x: 25,
+  y: 575,
+  w: 20,
+  h: 20,
 };
 
 //Menu Text
@@ -71,6 +78,10 @@ let cellNumber;
 //Cell coordinates
 let a = 0;
 let b = 0;
+
+//Player coordinates in relation to the Cell
+let p1Cell = 1; // starting at cell 1
+let p2Cell = 1;
 
 // Turn system
 let currentPlayer = 1; // 1 = Player One, 2 = Player Two
@@ -151,6 +162,7 @@ function menuDraw() {
  */
 function originalMode() {
   gameModeDraw();
+  drawDie();
   drawPlayerTurnTxt();
 }
 
@@ -177,26 +189,6 @@ function gameModeDraw() {
   drawMenuButton();
   drawPlayerOne();
   drawPlayerTwo();
-}
-
-/**
- * Player Control Instructions
- */
-
-function controlInstructions() {
-  push();
-  fill("#fe7c80ff");
-  textAlign(CENTER, CENTER);
-  textSize(10);
-  text("Player One: AWSD Controls", 100, 570);
-  pop();
-
-  push();
-  fill("#98b3ffff");
-  textAlign(CENTER, CENTER);
-  textSize(10);
-  text("Player Two: Arrow Key Controls", 500, 570);
-  pop();
 }
 
 /** Draw Menu Txt
@@ -320,13 +312,15 @@ function drawPlayerTwo() {
  */
 function drawPlayerTurnTxt() {
   push();
-  fill(txt.fillthree);
+  fill("#fe7c80ff");
   textAlign(CENTER, CENTER);
   textSize(20);
   if (currentPlayer === 1) {
     text("Player One's Turn", width / 2, 25);
+    fill("#fe7c80ff");
   } else {
     text("Player Two's Turn", width / 2, 25);
+    fill("#98b3ffff");
   }
   pop();
 }
@@ -356,11 +350,11 @@ function menuMousePressed() {
     game = "meta"; //change to meta game mode
     gridFill.str = gridFill.fill.ana; //set grid color base on mode
   }
-  // RESET PLAYER POSITIONS HERE
+  // Reset players positions to these coordinates
   p1.x = 290;
-  p1.y = 570;
+  p1.y = 575;
   p2.x = 310;
-  p2.y = 570;
+  p2.y = 575;
 }
 
 function pressMenuButton() {
@@ -372,6 +366,60 @@ function pressMenuButton() {
   }
 }
 
+/**
+ * ORIGINAL MODE BELOW
+ *
+ */
+
+function getCellCoordinates(cell) {
+  let row = Math.floor((cell - 1) / NUM_COLS);
+  let col;
+
+  let flippedRow = NUM_ROWS - 1 - row;
+  if (flippedRow % 2 === 0) {
+    col = (cell - 1) % NUM_COLS;
+  } else {
+    col = NUM_COLS - 1 - ((cell - 1) % NUM_COLS);
+  }
+
+  let x = offsetX + col * CELL_SIZE + CELL_SIZE / 2;
+  let y = offsetY + (NUM_ROWS - 1 - row) * CELL_SIZE + CELL_SIZE / 2;
+  return { x, y };
+}
+
+function rollDice() {
+  rolling = true;
+}
+
+function drawDie() {
+  let hoverDie = dist(mouseX, mouseY, die.x, die.y) < 20;
+  push();
+  fill("#ffffffff");
+  rectMode(CENTER);
+  noStroke();
+  if (!hoverDie) {
+    rect(die.x, die.y, die.w, die.h);
+  } else {
+    rect(die.x, die.y, die.w + 3, die.h + 3);
+  }
+  pop();
+}
+function pressDie() {
+  //Hover Menu Button
+  const dDie = dist(mouseX, mouseY, die.x, die.y);
+
+  if (dDie < 20) {
+  }
+}
+
+/**
+ * META MODE BELOW
+ *
+ */
+
+/**
+ * Player One Movement in Meta Mode
+ */
 function p1MetaMovement() {
   let nextX = p1.x;
   let nextY = p1.y;
@@ -393,6 +441,10 @@ function p1MetaMovement() {
     p1.y = nextY;
   }
 }
+
+/**
+ * Player Two Movement in Meta Mode
+ */
 function p2MetaMovement() {
   let nextX = p2.x;
   let nextY = p2.y;
@@ -412,4 +464,23 @@ function p2MetaMovement() {
     p2.x = nextX;
     p2.y = nextY;
   }
+}
+
+/**
+ * Player Control Instructions
+ */
+function controlInstructions() {
+  push();
+  fill("#fe7c80ff");
+  textAlign(CENTER, CENTER);
+  textSize(10);
+  text("Player One: AWSD Controls", 100, 570);
+  pop();
+
+  push();
+  fill("#98b3ffff");
+  textAlign(CENTER, CENTER);
+  textSize(10);
+  text("Player Two: Arrow Key Controls", 500, 570);
+  pop();
 }
