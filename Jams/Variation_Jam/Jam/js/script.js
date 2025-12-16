@@ -65,8 +65,8 @@ let snakes = {
     snake_2: {
       headCell: 37,
       tailCell: 20,
-      x: 100,
-      y: 340,
+      x: 150,
+      y: 420,
       w: 300,
       h: 300,
     },
@@ -81,8 +81,8 @@ let snakes = {
     snake_4: {
       headCell: 55,
       tailCell: 49,
-      x: 350,
-      y: 220,
+      x: 395,
+      y: 300,
       w: 300,
       h: 300,
     },
@@ -749,9 +749,9 @@ function drawSnake() {
   pop();
 
   push();
-  translate(s.snake_2.x + 100 / 2, s.snake_2.y + 150 / 2);
+  translate(s.snake_2.x, s.snake_2.y);
   scale(-1, 1);
-  image(snakes.tealsnake.image, 0, 0, s.snake_2.w, s.snake_2.h); //snake_2 (38:22) **
+  image(snakes.tealsnake.image, 0, 0, s.snake_2.w, s.snake_2.h); //snake_2
   pop();
 
   push();
@@ -765,7 +765,7 @@ function drawSnake() {
   pop();
 
   push();
-  translate(s.snake_4.x + 100 / 2, s.snake_4.y + 150 / 2);
+  translate(s.snake_4.x, s.snake_4.y);
   scale(1, -1);
   rotate(radians(320));
   image(snakes.redsnake.image, 0, 0, s.snake_4.w, s.snake_4.h); //snake_4 (54:53)
@@ -1006,8 +1006,6 @@ function snakeEffectMeta() {
 
   for (let key in snakes.coordinates) {
     let snakey = snakes.coordinates[key]; // snaKEY (lmao I'm crashing out) is Lad_1, Lad_2, Lad_3, etc./Whatever comes after the 'coordinates.' property
-    snakey.w = 300; //OMG hindsight is 20/20 THEY LOOK SO MUCH BETTER BIGGER TT-TT
-    snakey.h = 300;
     // distance between player and Snakes
     let dp1 = dist(p1.x, p1.y, snakey.x, snakey.y);
     let dp2 = dist(p2.x, p2.y, snakey.x, snakey.y);
